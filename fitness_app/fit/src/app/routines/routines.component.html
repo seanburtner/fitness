@@ -1,6 +1,18 @@
-<h2>{{ getTitle() }}</h2> 
-<ul>
-    <li *ngFor="let routine of routines">
-        {{ routine }}
-    </li>
-</ul>
+<h2>My Routines</h2> 
+
+<div class="container">
+    <div class="row">
+        <div class="card col-3" *ngFor="let routine of routines">
+            <div class="card-header">
+                <h4> {{ routine.title }} </h4>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li *ngFor="let exercise of routine.exercises">
+                        {{ exercise }}
+                    </li> 
+                </ul> 
+            </div>
+        </div>
+    </div>
+</div>
