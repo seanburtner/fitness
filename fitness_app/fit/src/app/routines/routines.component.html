@@ -1,5 +1,29 @@
-<h2>My Routines</h2> 
+<!-- Navbar -->
+<ul ngbNav #nav="ngbNav" class="nav-tabs">
+    <li ngbNavItem style="padding-left: 5px;">
+        <a routerLink="/routines" routerLinkActive="active" ngbNavLink>Routines</a>
+    </li>
+    <li ngbNavItem>
+        <a routerLink="/history" routerLinkActive="active" ngbNavLink>History</a>
+    </li>
+    <li ngbNavItem>
+        <a routerLink="/profile" routerLinkActive="active" ngbNavLink>Profile</a>
+    </li>
+    <li class="ml-auto" style="padding: 5px 8px;">
+        <a class="btn btn-danger" style="padding: 0px 10px;">Sign out</a>
+    </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div>
 
+<!-- My routines heading -->
+<div class="container">
+    <div class="row">
+        <h2 class="tab-heading">My Routines</h2>
+    </div>
+</div> 
+
+<!-- Iterate through list of routines and display each on a card, with their exercises
+    listed underneath. Hard-coded in the 'example-routines.ts' file. -->
 <div class="container">
     <div class="row">
         <div class="card col-3" *ngFor="let routine of routines">

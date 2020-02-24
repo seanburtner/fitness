@@ -1,3 +1,23 @@
-<h1> The title of the app is: {{ title }} </h1> 
+<!-- Big title at top-->
+<h2 class="display-4 title-bar">GIT FIT</h2>
 
+<!-- Navbar, signout button on far right
+<ul ngbNav #nav="ngbNav" class="nav-tabs">
+    <li ngbNavItem style="padding-left: 5px;">
+        <a routerLink="/profile" routerLinkActive="active" ngbNavLink>Profile</a>
+    </li>
+    <li ngbNavItem>
+        <a routerLink="/routines" routerLinkActive="active" ngbNavLink>Routines</a>
+    </li>
+    <li ngbNavItem>
+        <a routerLink="/history" routerLinkActive="active" ngbNavLink>History</a>
+    </li>
+    <li class="ml-auto" style="padding: 5px 8px;">
+        <a class="btn btn-danger" style="padding: 0px 10px;">Sign out</a>
+    </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div>
+--->
+
+<!-- This will render whichever component is bound to the current route -->
 <router-outlet></router-outlet>

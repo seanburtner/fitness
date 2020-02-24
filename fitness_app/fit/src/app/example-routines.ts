@@ -19,5 +19,12 @@ export const exampleRoutines = [
         title: "Full-body workout",
         exercises: ["cardio", "pushups", "lunges"]
 
+    },
+
+    {
+        title: "Full-body workout 2",
+        exercises: ["swimming", "stairmaster", "jumping jacks"]
+
     }
+
 ];
