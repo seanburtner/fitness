@@ -2,5 +2,10 @@
     background-color: slateblue;
     color: white;
     padding-bottom: 3px;
+    margin-bottom: 0px;
     text-align: center;
+}
+
+.fade {
+    display: none;
 }

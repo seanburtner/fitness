@@ -1,12 +1,17 @@
-.tab-heading {
-    padding: 5px;
-}
-
-.col-3 {
-    margin: 3px 0px;
-}
-
 .card {
     border-width: 2px;
     border-color: rgb(90, 94, 94);
+}
+
+.brightness div:hover {
+    opacity: .5;
+}
+
+.newRoutine {
+    height: 40px;
+    margin-left: 20px;
+}
+
+#sharedRoutines {
+    margin-top: 5px;
 }

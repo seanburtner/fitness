@@ -1,0 +1,22 @@
+<!-- Navbar -->
+<div class="myNavBar">
+    <ul ngbNav #nav="ngbNav" class="nav-tab" style="padding-left: 0px;">
+        <li ngbNavItem class="nav-spacing">
+            <a routerLink="/routines" ngbNavLink>Routines</a>
+        </li>
+        <li ngbNavItem class="nav-spacing">
+            <a routerLink="/history" routerLinkActive="active" class="current" ngbNavLink>History</a>
+        </li>
+        <li ngbNavItem class="nav-spacing">
+            <a routerLink="/workout" ngbNavLink>My Workout</a>
+        </li>
+        <li class="ml-auto" style="padding: 5px 5px;">
+            <a routerLink="/" style="padding: 0px 10px;">Sign out</a>
+        </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
+</div> <br>
+
+<div class="container">
+    <p class="lead">This tab will contain a log of the user's workout history.</p>
+</div>

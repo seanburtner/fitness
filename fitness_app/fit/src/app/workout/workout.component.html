@@ -1,0 +1,23 @@
+<!-- Navbar -->
+<div class="myNavBar">
+    <ul ngbNav #nav="ngbNav" class="nav-tab" style="padding-left: 0px;">
+        <li ngbNavItem class="nav-spacing">
+            <a routerLink="/routines" ngbNavLink>Routines</a>
+        </li>
+        <li ngbNavItem class="nav-spacing">
+            <a routerLink="/history" ngbNavLink>History</a>
+        </li>
+        <li ngbNavItem class="nav-spacing">
+            <a routerLink="/workout"  routerLinkActive="active" class="current" ngbNavLink>My Workout</a>
+        </li>
+        <li class="ml-auto" style="padding: 5px 5px;">
+            <a routerLink="/" style="padding: 0px 10px;">Sign out</a>
+        </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
+</div> <br>
+
+<div class="container">
+    <p class="lead">An active session will be displayed here. <br> If they do not have an active session, direct them to the
+        Routines tab to start a routine. </p>
+</div>
