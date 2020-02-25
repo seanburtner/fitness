@@ -1,29 +1,69 @@
 <!-- Navbar -->
-<ul ngbNav #nav="ngbNav" class="nav-tabs">
-    <li ngbNavItem style="padding-left: 5px;">
-        <a routerLink="/routines" routerLinkActive="active" ngbNavLink>Routines</a>
-    </li>
-    <li ngbNavItem>
-        <a routerLink="/history" routerLinkActive="active" ngbNavLink>History</a>
-    </li>
-    <li ngbNavItem>
-        <a routerLink="/profile" routerLinkActive="active" ngbNavLink>Profile</a>
-    </li>
-    <li class="ml-auto" style="padding: 5px 8px;">
-        <a class="btn btn-danger" style="padding: 0px 10px;">Sign out</a>
-    </li>
-</ul>
-<div [ngbNavOutlet]="nav"></div>
+<div class="myNavBar">
+    <ul ngbNav #nav="ngbNav" class="nav-tab">
+        <li ngbNavItem class="nav-spacing" style="padding-left: 0px;">
+            <a routerLink="/routines" routerLinkActive="active" class="current" ngbNavLink>Routines</a>
+        </li>
+        <li ngbNavItem class="nav-spacing">
+            <a routerLink="/history" ngbNavLink>History</a>
+        </li>
+        <li ngbNavItem class="nav-spacing">
+            <a routerLink="/workout" ngbNavLink>My Workout</a>
+        </li>
+        <li class="ml-auto" style="padding: 5px 5px;">
+            <a routerLink="/" style="padding: 0px 10px;">Sign out</a>
+        </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
+</div> <br>
+
+<!-- MY ROUTINES ------------------------------------------>
 
 <!-- My routines heading -->
 <div class="container">
     <div class="row col">
-        <h2 class="tab-heading">My Routines</h2>
+        <h2>My Routines</h2>
+        <button class="btn btn-success newRoutine">New Routine</button>
+    </div>
+    <div class="row col">
+        <p class="lead">Select a routine to start, edit, or share it.</p>
     </div>
 </div> 
 
 <!-- Iterate through list of routines and display each on a card, with their exercises
     listed underneath. Hard-coded in the 'example-routines.ts' file. -->
+<div class="container newSection">
+    <div class="row">
+        <div class="brightness col-4" *ngFor="let routine of routines">
+            <div class="card">
+                <div class="card-header">
+                    <h4> {{ routine.title }} </h4>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li *ngFor="let exercise of routine.exercises">
+                            {{ exercise }}
+                        </li> 
+                    </ul> 
+                </div>
+            </div>
+        </div>
+    </div> <br>
+</div>
+
+<!-- END MY ROUTINES -------------------------------------->
+
+<!-- SHARED ROUTINES -------------------------------------->
+
+<!-- Shared routines heading -->
+<div class="container">
+    <div class="row col">
+        <h2 id=sharedRoutines>Shared with me</h2>
+
+    </div>
+</div> 
+
+<!-- Iterate through list of routines. -->
 <div class="container">
     <div class="row">
         <div class="brightness col-4" *ngFor="let routine of routines">
@@ -42,3 +82,5 @@
         </div>
     </div>
 </div>
+
+<!-- END SHARED ROUTINES ---------------------------------->

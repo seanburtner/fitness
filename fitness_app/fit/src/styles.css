@@ -5,3 +5,28 @@
     margin: 5px;
     padding: 1px
 }
+
+.nav-spacing {
+    padding: 0px 2px;
+}
+
+.current {
+    background-color: rgb(206, 202, 202);
+}
+
+.myNavBar {
+    font-size: 18px;
+    border-bottom-style: solid;
+    border-color: rgb(173, 171, 171);
+    border-width: 1px;
+}
+
+.newSection {
+    border-bottom-style: solid;
+    border-color: rgb(173, 171, 171);
+    border-width: 1px;
+}
+
+.hide {
+    display: none;
+}

@@ -5,3 +5,7 @@
     margin-bottom: 0px;
     text-align: center;
 }
+
+.fade {
+    display: none;
+}
