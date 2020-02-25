@@ -9,13 +9,15 @@ import { RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HistoryComponent } from './history/history.component';
 import { WorkoutComponent } from './workout/workout.component';
+import { RoutineEditorComponent } from './routine-editor/routine-editor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RoutinesComponent,
     HistoryComponent,
-    WorkoutComponent
+    WorkoutComponent,
+    RoutineEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,6 +27,7 @@ import { WorkoutComponent } from './workout/workout.component';
       { path: 'routines', component: RoutinesComponent },
       { path: 'history', component: HistoryComponent},
       { path: 'workout', component: WorkoutComponent},
+      { path: 'routineEditor', component: RoutineEditorComponent},
       { path: '', component: LoginComponent},
     ])
   ],
