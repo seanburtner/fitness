@@ -1,7 +1,17 @@
-.card{
-    margin: 0px 200px;
+.card {
+    padding: 15px 15px;
+    border-color: slateblue;
+    border-width: 3px;
 }
 
-.container{
-    justify-content: center;
+.welcome {
+    font-size: 36px;
+}
+
+.main-bg {
+    background-image: url('https://cdn.hipwallpaper.com/i/50/60/DOzkpw.jpg');
+    background-size: 830px 520px;
+    padding-top: 0px;
+    margin-top: 0px;
+    border-top-width: 0px;
 }
