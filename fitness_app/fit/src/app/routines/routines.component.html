@@ -17,7 +17,7 @@
 
 <!-- My routines heading -->
 <div class="container">
-    <div class="row">
+    <div class="row col">
         <h2 class="tab-heading">My Routines</h2>
     </div>
 </div> 
@@ -26,16 +26,18 @@
     listed underneath. Hard-coded in the 'example-routines.ts' file. -->
 <div class="container">
     <div class="row">
-        <div class="card col-3" *ngFor="let routine of routines">
-            <div class="card-header">
-                <h4> {{ routine.title }} </h4>
-            </div>
-            <div class="card-body">
-                <ul>
-                    <li *ngFor="let exercise of routine.exercises">
-                        {{ exercise }}
-                    </li> 
-                </ul> 
+        <div class="brightness col-4" *ngFor="let routine of routines">
+            <div class="card">
+                <div class="card-header">
+                    <h4> {{ routine.title }} </h4>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li *ngFor="let exercise of routine.exercises">
+                            {{ exercise }}
+                        </li> 
+                    </ul> 
+                </div>
             </div>
         </div>
     </div>
