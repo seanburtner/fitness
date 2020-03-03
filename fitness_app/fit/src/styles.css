@@ -12,6 +12,11 @@
     padding: 0px 2px;
 }
 
+/* Nav bar tabs grow */
+.tab-grow a:hover {
+    font-size: 19px;
+}
+
 /* Specify what the current tab looks like */
 .current {
     background-color: rgb(206, 202, 202);
