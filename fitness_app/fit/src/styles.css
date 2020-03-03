@@ -1,27 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.css';
 
+/* Margin and padding for all cards */
 .card {
     margin: 5px;
     padding: 1px
 }
 
+/* Spacing tabs on nav bar */
 .nav-spacing {
     padding: 0px 2px;
 }
 
+/* Specify what the current tab looks like */
 .current {
     background-color: rgb(206, 202, 202);
 }
 
+/* The nav bar's general styling */
 .myNavBar {
     font-size: 18px;
-    border-bottom-style: solid;
-    border-color: rgb(173, 171, 171);
-    border-width: 1px;
-}
-
-.newSection {
     border-bottom-style: solid;
     border-color: rgb(173, 171, 171);
     border-width: 1px;

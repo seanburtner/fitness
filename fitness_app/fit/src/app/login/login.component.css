@@ -1,13 +1,16 @@
-.card {
+/* Login card styling */
+#loginCard {
     padding: 15px 15px;
     border-color: slateblue;
     border-width: 3px;
 }
 
+/* Welcome text */
 .welcome {
     font-size: 36px;
 }
 
+/* Background image */
 .main-bg {
     background-image: url('http://bgfons.com/uploads/iron/iron_texture637.jpg');
     background-size: cover;
