@@ -20,6 +20,7 @@ export class RoutinesComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Show the shared routines section when link is clicked
   showSharedRoutines() {
     this.shared.nativeElement.style.display = "block";
   }
