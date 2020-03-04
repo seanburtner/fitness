@@ -17,6 +17,27 @@
     <div [ngbNavOutlet]="nav"></div>
 </div> <br>
 
-<div class="container">
-    <p class="lead">This tab will contain a log of the user's workout history.</p>
+<!--WORKOUT LOG STARTS HERE-->
+
+<div class="center">
+<div class="container newSection">
+        <h1>History</h1>
+    <div class="column">
+        <div class="brightness col-10"  *ngFor="let routine of routines" margin="100px">
+            <div class="card">
+                <div class="card-header">
+                    <h4> {{ routine.title }} </h4>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li *ngFor="let exercise of routine.exercises">
+                            {{ exercise }}
+                        </li> 
+                    </ul> 
+                </div>
+            </div>
+            <br>
+        </div>
+    </div> <br>
+</div>
 </div>
