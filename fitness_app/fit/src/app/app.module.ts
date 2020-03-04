@@ -18,6 +18,7 @@ import { RoutineEditorComponent } from './routine-editor/routine-editor.componen
     RoutinesComponent,
     HistoryComponent,
     WorkoutComponent,
+    LoginComponent,
     RoutineEditorComponent,
   ],
   imports: [
