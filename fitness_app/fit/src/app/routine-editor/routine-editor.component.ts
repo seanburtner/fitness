@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 export class RoutineEditorComponent implements OnInit {
   // @ViewChild('pp') pp: ElementRef;
   @ViewChild('theExercise') theExercise: ElementRef;
+  @ViewChild('nameError') nameError: ElementRef;
+  @ViewChild('routineName') routineName: ElementRef;
+
   constructor(
     private routineEditorService: RoutineEditorService,
     private router: Router
@@ -23,23 +26,38 @@ export class RoutineEditorComponent implements OnInit {
 
   exercises = [];
 
+  // If the routine name is empty, display the error message. Otherwise, hide it. ARROW FUNCTION ERROR MESSAGES
+  nameValidation = () => {
+    var name = this.routineName.nativeElement.value;
+    var errorMessage = this.nameError.nativeElement;
+
+    if (name.length == 0) {
+      errorMessage.style.display = "inline";
+    }
+    else {
+      errorMessage.style.display = "none";
+    }
+  }
+
+  // Add exercise to exercise list DOM MANIPULATION - CLEARING THE FORM
   addToRoutine(exercise) {
     this.exercises.push(exercise);
     this.theExercise.nativeElement.value = "";
   }
 
-  saveRoutine() {
-    window.alert("Routine saved!");
-    this.router.navigate(['/routines']);
+  // Save routine and redirect to routines page ANONYMOUS FUNCTION DOM MANIPULATION
+  saveRoutine = function() {
+    var name = this.routineName.nativeElement.value;
+    if (name.length == 0) {
+      window.alert("Please enter a routine name.");
+    }
+    else {
+      window.alert("Routine saved!");
+      this.router.navigate(['/routines']);
+    }
   }
 
   ngOnInit(): void {
-    
+
   }
-
-
-
-  /* hide() {
-    this.pp.nativeElement.innerHTML='AAAAAAAAAAAAAAAAAA';
-  } */
 }
