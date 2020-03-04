@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { RoutinesService } from './routines.service';
 //import example list of routines:
 import { exampleRoutines } from '../example-routines';
@@ -9,6 +9,7 @@ import { exampleRoutines } from '../example-routines';
   styleUrls: ['./routines.component.css']
 })
 export class RoutinesComponent implements OnInit {
+  @ViewChild('shared') shared: ElementRef;
   routines = exampleRoutines;
 
   // Use the below when we eventually retrieve routines from the server
@@ -17,6 +18,10 @@ export class RoutinesComponent implements OnInit {
    }*/
 
   ngOnInit(): void {
+  }
+
+  showSharedRoutines() {
+    this.shared.nativeElement.style.display = "block";
   }
 
 }

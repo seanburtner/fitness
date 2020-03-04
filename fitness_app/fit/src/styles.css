@@ -7,6 +7,10 @@
     padding: 1px
 }
 
+.card-body {
+    padding-left: 0px;
+}
+
 /* Spacing tabs on nav bar */
 .nav-spacing {
     padding: 0px 2px;
@@ -36,4 +40,37 @@
 
 .inline {
     display: inline;
+}
+
+@media screen and (max-width:768px) {
+    h5 {
+        font-size: 10px;
+    }
+
+    h4 {
+        font-size: 18px;
+    }
+
+    li {
+        font-size: 10px;
+    }
+}
+
+
+@media screen and (max-width:500px) {
+    h5 {
+        font-size: 8px;
+    }
+
+    h4 {
+        font-size: 12px;
+    }
+
+    li {
+        font-size: 8px;
+    }
+}
+
+.responsive-width {
+    font-size: 1.2vw;
 }

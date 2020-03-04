@@ -32,7 +32,8 @@
                         <div class="form-group">
                             <div class="row justify-content-center align-items-center">
                                 <h5 class="col-3">Routine Name</h5>
-                                <input type="text" class="form-control col-7" name="title">
+                                <input autofocus #routineName type="text" class="form-control col-7" name="title" (blur)="nameValidation()">
+                                <small #nameError style="color: red; display: none">You must enter a routine name.</small>
                             </div>
                             <hr>
                         </div>
@@ -43,7 +44,7 @@
                 <form #routineForm="ngForm" (ngSubmit)="addToRoutine(theExercise.value)">
                     <div class="row justify-content-center">
                         <input #theExercise placeholder="Type an exercise name..." type="text" class="form-control col-4" name="exercise">
-                        <button type="submit" class="btn btn-success col-2" style="margin-left: 10px;">Add Exercise</button>
+                        <button type="submit" class="btn btn-success col-2 responsive-width" style="margin-left: 10px;">Add Exercise</button>
                     </div>
                 </form>
                 
@@ -63,4 +64,3 @@
         </div>
     </div>
 </div>
-

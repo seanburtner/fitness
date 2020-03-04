@@ -57,13 +57,15 @@
 
 <!-- Shared routines heading -->
 <div class="container">
-    <div class="row col">
-        <h2 id=sharedRoutines>Shared with me</h2>
+    <div class="row">
+        <h2 class=col id=sharedRoutines>Shared with me</h2>
     </div>
-</div> 
+    <a class=text-primary (click)="showSharedRoutines()">Click to show</a>
+</div>
+
 
 <!-- Iterate through list of routines. -->
-<div class="container">
+<div #shared class="container hide">
     <div class="row">
         <div class="brightness col-4" *ngFor="let routine of routines">
             <div class="card">
