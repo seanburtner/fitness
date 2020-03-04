@@ -1,17 +1,28 @@
+/* Routine cards */
 .card {
     border-width: 2px;
     border-color: rgb(90, 94, 94);
 }
 
+/* Routines glow when you hover over them */
 .brightness div:hover {
     opacity: .5;
 }
 
+/* New routine button styling */
 .newRoutine {
     height: 40px;
     margin-left: 20px;
 }
 
+/* Line separating shared routines from my routines */
+.newSection {
+    border-bottom-style: solid;
+    border-color: rgb(173, 171, 171);
+    border-width: 1px;
+}
+
+/* Set margins for shared routines header */
 #sharedRoutines {
     margin-top: 5px;
 }
