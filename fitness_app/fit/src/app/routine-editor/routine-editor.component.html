@@ -1,1 +1,66 @@
-<p #pp (click)="hide()">routine-editor works!</p>
+<!-- Navbar -->
+<div class="myNavBar">
+    <ul ngbNav #nav="ngbNav" class="nav-tab tab-grow">
+        <li ngbNavItem class="nav-spacing" style="padding-left: 0px;">
+            <a routerLink="/routines" routerLinkActive="active" ngbNavLink>Routines</a>
+        </li>
+        <li ngbNavItem class="nav-spacing">
+            <a routerLink="/history" ngbNavLink>History</a>
+        </li>
+        <li ngbNavItem class="nav-spacing">
+            <a routerLink="/workout" ngbNavLink>My Workout</a>
+        </li>
+        <li class="ml-auto" style="padding: 5px 5px;">
+            <a routerLink="/" style="padding: 0px 10px;">Sign out</a>
+        </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
+</div> <br>
+
+<!-- ROUTINE EDITOR -->
+<div class="container" style="padding-top: 10px;">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div id="routineCard" class="card">
+                <!-- Title of card-->
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <h3 class="card-title">Create routine</h3>
+                    </div>
+                <!-- Title of the routine form -->
+                    <form #title="ngForm">
+                        <div class="form-group">
+                            <div class="row justify-content-center align-items-center">
+                                <h5 class="col-3">Routine Name</h5>
+                                <input type="text" class="form-control col-7" name="title">
+                            </div>
+                            <hr>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Add exercises form -->
+                <form #routineForm="ngForm" (ngSubmit)="addToRoutine(theExercise.value)">
+                    <div class="row justify-content-center">
+                        <input #theExercise placeholder="Type an exercise name..." type="text" class="form-control col-4" name="exercise">
+                        <button type="submit" class="btn btn-success col-2" style="margin-left: 10px;">Add Exercise</button>
+                    </div>
+                </form>
+                
+                <!-- Only display exercise list if not empty (and the save routine button)-->
+                <div *ngIf="exercises.length != 0">
+                    <p class="lead">Exercises:</p> 
+                    <ul>
+                        <li *ngFor="let exercise of exercises">{{ exercise }}</li>
+                    </ul> 
+                    <div class="row justify-content-center" style="margin-top: 10px;">
+                        <button class="btn btn-primary col-4" (click)="saveRoutine()">Save Routine</button>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+
