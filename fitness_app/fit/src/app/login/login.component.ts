@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ViewChild, ElementRef, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +8,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 export class LoginComponent implements OnInit {
   @ViewChild('email') email: ElementRef;
   @ViewChild('password') password: ElementRef;
+  @ViewChild('login') login : ElementRef;
   constructor() { }
 
   validateForm(email:String, password:String) {
@@ -46,4 +47,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  gitFit() {
+    this.login.nativeElement.innerHTML = "Let's GIT FIT!"
+  }
+
+  restore() {
+    this.login.nativeElement.innerHTML = "Login"
+  }
 }
