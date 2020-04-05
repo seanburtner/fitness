@@ -41,8 +41,11 @@ export class RoutineEditorComponent implements OnInit {
 
   // Add exercise to exercise list DOM MANIPULATION - CLEARING THE FORM
   addToRoutine(exercise) {
-    this.exercises.push(exercise);
-    this.theExercise.nativeElement.value = "";
+    exercise = exercise.trim();
+    if (exercise.length != 0) {
+      this.exercises.push(exercise);
+      this.theExercise.nativeElement.value = "";
+    }
   }
 
   // Save routine and redirect to routines page ANONYMOUS FUNCTION DOM MANIPULATION
