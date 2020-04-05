@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { HistoryComponent } from './history/history.component';
 import { WorkoutComponent } from './workout/workout.component';
 import { RoutineEditorComponent } from './routine-editor/routine-editor.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { RoutineEditorComponent } from './routine-editor/routine-editor.componen
     AppRoutingModule,
     NgbModule,
     FormsModule,
+    HttpClientModule,
     RouterModule.forRoot([ // order matters - make sure more specific ones come first
       { path: 'routines', component: RoutinesComponent },
       { path: 'history', component: HistoryComponent},
