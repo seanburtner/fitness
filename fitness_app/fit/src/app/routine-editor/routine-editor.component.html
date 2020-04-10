@@ -23,31 +23,30 @@
     <div class="row justify-content-center">
         <div class="col-8">
             <div id="routineCard" class="card">
-                <!-- Title of card-->
+                <!-- Card title -->
                 <div class="container">
                     <div class="row justify-content-center">
                         <h3 class="card-title">Create routine</h3>
                     </div>
-                <!-- Title of the routine form -->
-                    <form #title="ngForm">
+                <!-- Routine title field -->
+                    <form #routineForm="ngForm">
                         <div class="form-group">
                             <div class="row justify-content-center align-items-center">
                                 <h5 class="col-3">Routine Name</h5>
-                                <input autofocus #routineName type="text" class="form-control col-7" name="title" (blur)="nameValidation()">
+                                <input ngModel autofocus #routineName type="text" class="form-control col-7" name="title" (blur)="nameValidation()">
                                 <small #nameError style="color: red; display: none">You must enter a routine name.</small>
                             </div>
                             <hr>
                         </div>
+                <!-- Add exercises field -->
+                        <div class="row justify-content-center">
+                            <input ngModel #theExercise placeholder="Type an exercise name..." type="text" class="form-control col-4" name="exercise">
+                            <button (click)="addToRoutine(theExercise.value)" class="btn btn-success col-2 responsive-width" style="margin-left: 10px;">Add Exercise</button>
+                        </div>
+                <!-- TODO: Hidden input should get the user from the $_SESSION object and set it here -->
+                        <input ngModel name="user" value="user1" type="hidden">
                     </form>
                 </div>
-
-                <!-- Add exercises form -->
-                <form #routineForm="ngForm" (ngSubmit)="addToRoutine(theExercise.value)">
-                    <div class="row justify-content-center">
-                        <input #theExercise placeholder="Type an exercise name..." type="text" class="form-control col-4" name="exercise">
-                        <button type="submit" class="btn btn-success col-2 responsive-width" style="margin-left: 10px;">Add Exercise</button>
-                    </div>
-                </form>
                 
                 <!-- Only display exercise list if not empty (and the save routine button)-->
                 <div *ngIf="exercises.length != 0">
@@ -55,9 +54,12 @@
                     <ul>
                         <li *ngFor="let exercise of exercises">{{ exercise }}</li>
                     </ul> 
-                    <div class="row justify-content-center" style="margin-top: 10px;">
-                        <button class="btn btn-primary col-4" (click)="saveRoutine()">Save Routine</button>
-                    </div>
+                    <!-- Submit button; calls saveRoutine -->
+                    <form #submitForm="ngForm" (ngSubmit)="saveRoutine(routineForm.value)">
+                        <div class="row justify-content-center" style="margin-top: 10px;">
+                            <button type="submit" class="btn btn-primary col-4">Save Routine</button>
+                        </div>
+                    </form>
                 </div>
                 
                 
