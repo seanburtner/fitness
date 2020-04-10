@@ -76,7 +76,7 @@ export class RoutineEditorComponent implements OnInit {
       let parameters = JSON.stringify(form);
 
       // Send POST request to backend to save the routine
-      this.http.post('http://localhost/fitness/save-routine.php', parameters).subscribe( (data) => {
+      this.http.post('http://localhost/fitnessphp/save-routine.php', parameters).subscribe( (data) => {
         console.log('Response ', data);
       }, (error) => {
         console.log('Error you can do it!!! ', error);
