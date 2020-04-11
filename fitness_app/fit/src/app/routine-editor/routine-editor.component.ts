@@ -69,11 +69,13 @@ export class RoutineEditorComponent implements OnInit {
 
       // Set the form's user to the current user. TODO: FIGURE OUT HOW TO GET CURRENT USER
       form.user = "user1";
-
-      console.log('You submitted: ', form);
       
       // Convert form into parameters
-      let parameters = JSON.stringify(form);
+      // let parameters = JSON.stringify(form);
+      let parameters = new FormData();
+      parameters.append("title", form.title);
+      parameters.append("exercise", form.exercise);
+      parameters.append("user", form.user);
 
       // Send POST request to backend to save the routine
       this.http.post('http://localhost/fitnessphp/save-routine.php', parameters).subscribe( (data) => {
