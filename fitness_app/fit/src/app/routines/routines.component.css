@@ -20,7 +20,7 @@ Routine cards */
 .newSection {
     border-bottom-style: solid;
     border-color: rgb(173, 171, 171);
-    border-width: 1px;
+    border-width: 3px;
 }
 
 /* Set margins for shared routines header */

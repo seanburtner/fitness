@@ -32,6 +32,11 @@
     border-bottom-style: solid;
     border-color: rgb(173, 171, 171);
     border-width: 1px;
+    background-color: white;
+}
+
+.white {
+    color: white;
 }
 
 .hide {
@@ -73,4 +78,14 @@
 
 .responsive-width {
     font-size: 1.2vw;
+}
+
+.white {
+    color: white;
+}
+
+body {
+    margin: 0;
+    background-image: url('http://bgfons.com/uploads/iron/iron_texture47.jpg');
+    background-size: cover;
 }

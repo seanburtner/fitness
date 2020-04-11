@@ -12,6 +12,7 @@ import { HistoryComponent } from './history/history.component';
 import { WorkoutComponent } from './workout/workout.component';
 import { RoutineEditorComponent } from './routine-editor/routine-editor.component';
 import { HttpClientModule } from '@angular/common/http';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
     WorkoutComponent,
     LoginComponent,
     RoutineEditorComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
       { path: 'history', component: HistoryComponent},
       { path: 'workout', component: WorkoutComponent},
       { path: 'routineEditor', component: RoutineEditorComponent},
+      { path: 'register', component: RegisterComponent},
       { path: '', component: LoginComponent},
     ])
   ],

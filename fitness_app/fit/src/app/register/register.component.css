@@ -1,12 +1,7 @@
 /* Sean Burtner */
 /* Login card styling */
-#loginCard {
+#registerCard {
     padding: 15px 15px;
     border-color: slateblue;
     border-width: 3px;
-}
-
-/* Welcome text */
-.welcome {
-    font-size: 36px;
 }
