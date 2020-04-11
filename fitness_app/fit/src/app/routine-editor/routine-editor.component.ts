@@ -59,10 +59,7 @@ export class RoutineEditorComponent implements OnInit {
       window.alert("Please enter a routine name.");
     }
     else {
-      // TODO: Save the routine to the backend, attach user information as well.
-      //       May need to create a Routine class, to store a title, user, and 
-      //       exercise list. Or just make a table of Routines, with columns of
-      //       title, user, exercise list (as a string).
+      // Save the routine to the backend, attaching user information as well.
 
       // Set the form's exercise to be the exercises array
       form.exercise = JSON.stringify(this.exercises);
@@ -71,7 +68,6 @@ export class RoutineEditorComponent implements OnInit {
       form.user = "user1";
       
       // Convert form into parameters
-      // let parameters = JSON.stringify(form);
       let parameters = new FormData();
       parameters.append("title", form.title);
       parameters.append("exercise", form.exercise);
@@ -79,14 +75,17 @@ export class RoutineEditorComponent implements OnInit {
 
       // Send POST request to backend to save the routine
       this.http.post('http://localhost/fitnessphp/save-routine.php', parameters).subscribe( (data) => {
+        // If successful
         console.log('Response ', data);
+        window.alert("Routine saved!");
+        this.router.navigate(['/routines']);
       }, (error) => {
-        console.log('Error you can do it!!! ', error);
+        // If error
+        console.log('Error', error);
+        window.alert('An error occurred saving your routine. Please try again.')
+        location.reload();
       }
       )
-
-      window.alert("Routine saved!");
-      this.router.navigate(['/routines']);
     }
   }
 

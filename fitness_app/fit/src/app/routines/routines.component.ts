@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class RoutinesComponent implements OnInit {
   @ViewChild('shared') shared: ElementRef;
+  @ViewChild('link') link: ElementRef;
   routines = [];
   
   constructor( 
@@ -20,12 +21,12 @@ export class RoutinesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // TODO: Retrieve user's list of routines from the server.
+    // Retrieve user's list of routines from the server.
     
-    // Figure out how to get the current username/id. For now just setting it to user1.
+    // TODO: Figure out how to get the current username/id. For now just setting it to user1.
     // We probably don't want to pass the user through the URL (naive implementation); probably
-    // should set the $_SESSION object or COOKIE to the current user on load, then in the php file
-    // retrieve the user there.
+    // should set the $_SESSION object or COOKIE to the current user when they login, then in the get-routines 
+    // php file retrieve the user there. I guess we won't even need any parameters once we do this.
     let user = 'user1';
     
     // Construct and send the get request.
@@ -35,6 +36,7 @@ export class RoutinesComponent implements OnInit {
 
         // Process data and update this.routines. Start by getting the array of routines from the data stream:
         let retrievedRoutines = data['content'];
+        console.log('Current user!', data['currentUser']); // this was for testing to try to see current user via SESSION
 
         // Iterate through routines to isolate the title and list of exercises from each.
         var i;
@@ -62,7 +64,9 @@ export class RoutinesComponent implements OnInit {
         }
         
       }, (error) => {
-        console.log('Error you can do it!!! ', error);
+        // If error
+        window.alert("An error occurred while loading your routines.");
+        console.log('Error', error);
       }
       )
 
@@ -71,6 +75,7 @@ export class RoutinesComponent implements OnInit {
   // Show the shared routines section when link is clicked
   showSharedRoutines() {
     this.shared.nativeElement.style.display = "block";
+    this.link.nativeElement.style.display = "none";
   }
 
 }

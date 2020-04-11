@@ -10,6 +10,7 @@ header('Access-Control-Allow-Origin: http://localhost:4200');
 header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Authorization, Accept, Client-Security-Token, Accept-Encoding');
 header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
+header('Access-Control-Allow-Credentials: true');
 
 // OLD METHOD
 // Retrieve data from the request
@@ -32,7 +33,7 @@ header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 // $exercises = $data[1]['exercise'];
 // $user = $data[2]['user'];
 
-
+// Extract the POST request data
 $title = $_POST["title"];
 $exercises = $_POST["exercise"];
 $user = $_POST["user"];
@@ -49,6 +50,6 @@ $statement->execute();
 $statement->closeCursor();
 
 // routine-editor.component.ts is expecting a response; echo the data for confirmation
-echo json_encode(['content'=>$data]);
+echo json_encode(['content'=>'Success']);
 
 ?>

@@ -1,4 +1,11 @@
 <?php
+// Handle CORS (MUST UPDATE ON DEPLOYMENT)
+header('Access-Control-Allow-Origin: http://localhost:4200');
+header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Authorization, Accept, Client-Security-Token, Accept-Encoding');
+header('Access-Control-Max-Age: 1000');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
+header('Access-Control-Allow-Credentials: true');
+
 $username = 'gitfit';
 $password = 'gitfit!';
 $host = 'localhost:3306';
@@ -16,11 +23,22 @@ try
    $test = $db->prepare( "DESCRIBE `routines`" );
     if ( $test->execute() ) {
        // Table exists.
-       //echo "<p>Table exists.</p>";
    } else {
        // Table does not exist. Create the table.
-       // echo "<p>Table does not exist.</p>";
        $query = "CREATE TABLE routines ( title VARCHAR(50) NOT NULL , exercises VARCHAR(1000) NOT NULL , user VARCHAR(50) NOT NULL )";
+       $statement = $db->prepare($query);
+       $statement->execute();
+       $statement->closeCursor();
+   }
+   $test->closeCursor();
+
+   // Check to see if users table has been created.
+   $test = $db->prepare( "DESCRIBE `users`" );
+    if ( $test->execute() ) {
+       // Table exists.
+   } else {
+       // Table does not exist. Create the table.
+       $query = "CREATE TABLE users ( email VARCHAR(50) NOT NULL , password VARCHAR(255) NOT NULL )";
        $statement = $db->prepare($query);
        $statement->execute();
        $statement->closeCursor();
