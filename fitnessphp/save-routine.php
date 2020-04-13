@@ -38,18 +38,36 @@ $title = $_POST["title"];
 $exercises = $_POST["exercise"];
 $user = $_POST["user"]; // todo: extract from $_SESSION
 
-// Create query, with placeholders for the required data
-$query = "INSERT INTO routines (title, exercises, user) VALUES (:title, :exercises, :user)";
+// Check to see if this user already has a routine with this name; if so, return error
+// Construct and prepare query
+$query = "SELECT * FROM routines WHERE title=:title and user=:user"; // TODO: where user = $_SESSION['user']...
 $statement = $db->prepare($query);
 
-// Fill placeholders and execute query
+// Execute query and fetch results
 $statement->bindValue(':title', $title);
-$statement->bindValue(':exercises', $exercises);
 $statement->bindValue(':user', $user);
 $statement->execute();
+$result = $statement->fetch();
 $statement->closeCursor();
 
-// routine-editor.component.ts is expecting a response; echo the data for confirmation
-echo json_encode(['content'=>'Success']);
+// If the user does have a routine with this name, return an error
+if ($result != false) {
+    echo json_encode(['content'=>'Duplicate']);
+} 
+// Otherwise, add the routine and return success
+else {
+    // Create query, with placeholders for the required data
+    $query = "INSERT INTO routines (title, exercises, user) VALUES (:title, :exercises, :user)";
+    $statement = $db->prepare($query);
 
+    // Fill placeholders and execute query
+    $statement->bindValue(':title', $title);
+    $statement->bindValue(':exercises', $exercises);
+    $statement->bindValue(':user', $user);
+    $statement->execute();
+    $statement->closeCursor();
+
+    // routine-editor.component.ts is expecting a response; echo the data for confirmation
+    echo json_encode(['content'=>'Success']);
+}
 ?>

@@ -3,6 +3,7 @@ import { RoutineEditorService } from '../routine-editor.service';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { stringify } from 'querystring';
+import { parseI18nMeta } from '@angular/compiler/src/render3/view/i18n/meta';
 
 
 @Component({
@@ -74,8 +75,14 @@ export class RoutineEditorComponent implements OnInit {
       this.http.post('http://localhost/fitnessphp/save-routine.php', parameters).subscribe( (data) => {
         // If successful
         console.log('Response ', data);
-        window.alert("Routine saved!");
-        this.router.navigate(['/routines']);
+        if (data['content'] == 'Success') {
+          window.alert("Routine saved!");
+          this.router.navigate(['/routines']);
+        }
+        // If duplicate routine
+        else if (data['content'] == 'Duplicate') {
+          window.alert("You already have a routine with this name. Please choose a new name.");
+        }
       }, (error) => {
         // If error
         console.log('Error', error);
@@ -89,14 +96,9 @@ export class RoutineEditorComponent implements OnInit {
   ngOnInit(): void {
     // See if the user is trying to edit a routine
     let params = new URLSearchParams(window.location.search);
-
-    // If there are no parameters in the url, simply return
-    if (window.location.search.length == 0) {
-      return
-    }
-    // Otherwise, prepopulate the form
-    else {
-      // Get title and prefill the form (for some reason native element couldn't be used here)
+    // If the URL has parameters, prepopulate the form
+    if (params.has('routine') && params.has('exercises')) {
+      // Get title and set prefilled value
       let title = params.get('routine');
       this.presetRoutineName = title;
 
