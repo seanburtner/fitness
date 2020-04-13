@@ -8,7 +8,7 @@ header('Access-Control-Allow-Credentials: true');
 
 $username = 'gitfit';
 $password = 'gitfit!';
-$host = 'localhost:3306';
+$host = 'localhost:3308';
 $dbname = 'gitfit';
 
 $dsn = "mysql:host=$host;dbname=$dbname";
