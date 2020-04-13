@@ -11,7 +11,6 @@ import { stringify } from 'querystring';
   styleUrls: ['./routine-editor.component.css']
 })
 export class RoutineEditorComponent implements OnInit {
-  // @ViewChild('pp') pp: ElementRef;
   @ViewChild('theExercise') theExercise: ElementRef;
   @ViewChild('nameError') nameError: ElementRef;
   @ViewChild('routineName') routineName: ElementRef;
@@ -28,6 +27,7 @@ export class RoutineEditorComponent implements OnInit {
     window.alert('Exercise added!')
   } */
 
+  presetRoutineName = '';
   exercises = [];
 
   // If the routine name is empty, display the error message. Otherwise, hide it. ARROW FUNCTION ERROR MESSAGES
@@ -63,15 +63,12 @@ export class RoutineEditorComponent implements OnInit {
 
       // Set the form's exercise to be the exercises array
       form.exercise = JSON.stringify(this.exercises);
-
-      // Set the form's user to the current user. TODO: FIGURE OUT HOW TO GET CURRENT USER
-      form.user = "user1";
       
       // Convert form into parameters
       let parameters = new FormData();
       parameters.append("title", form.title);
       parameters.append("exercise", form.exercise);
-      parameters.append("user", form.user);
+      parameters.append("user", 'user1');
 
       // Send POST request to backend to save the routine
       this.http.post('http://localhost/fitnessphp/save-routine.php', parameters).subscribe( (data) => {
@@ -90,6 +87,28 @@ export class RoutineEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // See if the user is trying to edit a routine
+    let params = new URLSearchParams(window.location.search);
 
+    // If there are no parameters in the url, simply return
+    if (window.location.search.length == 0) {
+      return
+    }
+    // Otherwise, prepopulate the form
+    else {
+      // Get title and prefill the form (for some reason native element couldn't be used here)
+      let title = params.get('routine');
+      this.presetRoutineName = title;
+
+      // Get exercises
+      let exercises = params.get('exercises');
+      let exerciseArray = exercises.split(',');
+
+      // Prefill the exercises array
+      if (exerciseArray.length != 0) {
+        this.exercises = exerciseArray;
+      }
+      
+    }
   }
 }

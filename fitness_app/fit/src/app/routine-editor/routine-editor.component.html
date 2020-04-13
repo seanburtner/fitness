@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <div class="row justify-content-center align-items-center">
                                 <h5 class="col-3">Routine Name</h5>
-                                <input ngModel autofocus #routineName type="text" class="form-control col-7" name="title" (blur)="nameValidation()">
+                                <input ngModel="{{ presetRoutineName }}" autofocus #routineName type="text" class="form-control col-7" name="title" (blur)="nameValidation()">
                                 <small #nameError style="color: red; display: none">You must enter a routine name.</small>
                             </div>
                             <hr>

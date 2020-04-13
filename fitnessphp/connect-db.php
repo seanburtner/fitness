@@ -8,18 +8,18 @@ header('Access-Control-Allow-Credentials: true');
 
 $username = 'gitfit';
 $password = 'gitfit!';
-$host = 'localhost:3308';
+$host = 'localhost:3306';
 $dbname = 'gitfit';
 
 $dsn = "mysql:host=$host;dbname=$dbname";
 
-/** connect to the database **/
+/** connect to the database and set up tables if necessary **/
 try 
 {
    $db = new PDO($dsn, $username, $password);   
    //echo "<p>You are connected to the database</p><br/>";
 
-   // Set up db. Check to see if routines table has been created. From: https://stackoverflow.com/questions/6432178/how-can-i-check-if-a-mysql-table-exists-with-php
+   // Check to see if routines table has been created. From: https://stackoverflow.com/questions/6432178/how-can-i-check-if-a-mysql-table-exists-with-php
    $test = $db->prepare( "DESCRIBE `routines`" );
     if ( $test->execute() ) {
        // Table exists.
@@ -29,6 +29,19 @@ try
        $statement = $db->prepare($query);
        $statement->execute();
        $statement->closeCursor();
+   }
+   $test->closeCursor();
+
+   // Check to see if shared routines table has been created.
+   $test = $db->prepare( "DESCRIBE `sharedRoutines`" );
+   if ( $test->execute() ) {
+      // Table exists.
+   } else {
+      // Table does not exist. Create the table.
+      $query = "CREATE TABLE sharedRoutines ( title VARCHAR(50) NOT NULL , exercises VARCHAR(1000) NOT NULL , user VARCHAR(50) NOT NULL )";
+      $statement = $db->prepare($query);
+      $statement->execute();
+      $statement->closeCursor();
    }
    $test->closeCursor();
 
@@ -44,6 +57,7 @@ try
        $statement->closeCursor();
    }
    $test->closeCursor();
+   
 }
 catch (PDOException $e)     // handle a PDO exception (errors thrown by the PDO library)
 {
