@@ -36,7 +36,7 @@ header('Access-Control-Allow-Credentials: true');
 // Extract the POST request data
 $title = $_POST["title"];
 $exercises = $_POST["exercise"];
-$user = $_POST["user"];
+$user = $_POST["user"]; // todo: extract from $_SESSION
 
 // Create query, with placeholders for the required data
 $query = "INSERT INTO routines (title, exercises, user) VALUES (:title, :exercises, :user)";

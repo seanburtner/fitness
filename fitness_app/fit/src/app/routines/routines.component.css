@@ -7,7 +7,7 @@ Routine cards */
 
 /* Routines glow when you hover over them */
 .brightness div:hover {
-    opacity: .5;
+    opacity: .8;
 }
 
 /* New routine button styling */

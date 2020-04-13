@@ -1,6 +1,7 @@
 <?php
-// SAVE-ROUTINE.PHP IS CALLED WHEN USERS FINISHING CREATING A NEW ROUTINE - RECEIVES A POST REQUEST
-// CONTAINING ROUTINE TITLE, LIST OF EXERCISES, AND USERNAME/ID
+// SHARE-ROUTINE.PHP IS CALLED WHEN USERS SHARE A ROUTINE ON THE ROUTINES PAGE; RECEIVES
+// A POST REQUEST CONTAINING A ROUTINE TITLE TO SHARE, THE USER SENDING THE REQUEST,
+// AND THE USER TO SHARE WITH (RECIPIENT)
 
 // Connect to db (also makes table(s) if necessary)
 require('connect-db.php');
@@ -12,44 +13,73 @@ header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 header('Access-Control-Allow-Credentials: true');
 
-// OLD METHOD
-// Retrieve data from the request
-// $postdata = file_get_contents("php://input");
-// // $getdata = $_GET['str'];
+function doesUserExist($username, $db) {
+    // Create and prepare query
+    $query = "SELECT * FROM users WHERE email = :username";
+    $statement = $db->prepare($query);
 
-// // Convert json format to PHP array
-// $request = json_decode($postdata);
+    // Fill placeholder and execute query
+    $statement->bindValue(':username', $username);
+    $statement->execute();
+    $result = $statement->fetch();
+    $statement->closeCursor();
 
-// // Iterate through to move data to accessible array
-// $data = [];
-// $i = 0;
-// foreach ($request as $key => $value) {
-//     $data[$i][$key] = $value;
-//     $i++;
-// }
-
-// // Move data into variables to prepare for insertion query
-// $title = $data[0]['title'];
-// $exercises = $data[1]['exercise'];
-// $user = $data[2]['user'];
+    // If there is no result, return false; else true
+    if ($result == false) {
+        return false;
+    } else {
+        return true;
+    }
+}
 
 // Extract the POST request data
-$title = $_POST["title"];
-$exercises = $_POST["exercise"];
-$user = $_POST["user"];
+$title = $_POST["routineToShare"];
+$recipient = trim($_POST["recipient"]);
+$user = $_POST["user"]; //TODO: get from $_SESSION
 
-// Create query, with placeholders for the required data
-$query = "INSERT INTO shared-routines (title, exercises, user) VALUES (:title, :exercises, :user)";
-$statement = $db->prepare($query);
+// First check to see that a valid username was entered.
+$found = doesUserExist($recipient, $db);
 
-// Fill placeholders and execute query
-$statement->bindValue(':title', $title);
-$statement->bindValue(':exercises', $exercises);
-$statement->bindValue(':user', $user); // <- needs to be who its getting shared to
-$statement->execute();
-$statement->closeCursor();
+// If this user doesn't exist, return error
+if ($found == false) {
+    echo json_encode(['content'=>'User not found']);
+} else {
+    // Get the routine that the user is trying to share.
+    $query = "SELECT * FROM routines WHERE title = :title and user = :user LIMIT 1";
+    $statement = $db->prepare($query);
 
-// routine-editor.component.ts is expecting a response; echo the data for confirmation
-echo json_encode(['content'=>'Success']);
+    // Fill placeholder and execute query
+    $statement->bindValue(':title', $title);
+    $statement->bindValue(':user', $user);
+    $statement->execute();
+    $result = $statement->fetch();
+    $statement->closeCursor();
+
+    // If somehow this routine couldn't be found, return an error
+    if ($result == false) {
+        echo json_encode(['content'=>'Error']);
+    } else { // Otherwise insert the routine into the shared routines table
+
+        // Extract the routine data
+        $new_title = $result['title'];
+        $new_exercises = $result['exercises'];
+
+        // The user field of the new routine should be the recipient
+        $new_user = $recipient;
+
+        // Create query, with placeholders for the required data
+        $query = "INSERT INTO sharedRoutines (title, exercises, user) VALUES (:title, :exercises, :user)";
+        $statement = $db->prepare($query);
+
+        // Fill placeholders and execute query
+        $statement->bindValue(':title', $new_title);
+        $statement->bindValue(':exercises', $new_exercises);
+        $statement->bindValue(':user', $new_user);
+        $statement->execute();
+        $statement->closeCursor();
+
+        echo json_encode(['content'=>'Success']);
+    }
+}
 
 ?>

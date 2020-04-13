@@ -1,6 +1,6 @@
 <?php session_start(); ?>
 <?php
-// GET-ROUTINES.PHP IS CALLED AS THE ROUTINES PAGE IS LOADED TO FETCH THE CURRENT USER'S ROUTINES
+// GET-SHARED-ROUTINES.PHP IS CALLED AS THE ROUTINES PAGE IS LOADED TO FETCH THE CURRENT USER'S SHARED ROUTINES
 
 // Connect to db (also makes table(s) if necessary)
 require('connect-db.php');
@@ -17,7 +17,7 @@ header('Access-Control-Allow-Credentials: true');
 $user = $_GET['user'];
 
 // Construct and prepare query
-$query = "SELECT * FROM shared-routines"; // TODO: where user = $_SESSION['user']...
+$query = "SELECT * FROM sharedRoutines"; // TODO: where user = $_SESSION['user']...
 $statement = $db->prepare($query);
 
 // Execute query and fetch results
@@ -25,13 +25,7 @@ $statement->execute();
 $results = $statement->fetchAll();
 $statement->closeCursor();
 
-// Testing around to see if you can access user in session :(
-$currentUser = "unset user";
-if (isset($_SESSION['user'])) {
-    $currentUser = $_SESSION['user'];
-}
-
 // Send data back to routines.component.ts
-echo json_encode(['content'=>$results, 'currentUser'=>$currentUser]);
+echo json_encode(['content'=>$results]);
 
 ?>
