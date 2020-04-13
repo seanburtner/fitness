@@ -43,8 +43,6 @@
                             <input ngModel #theExercise placeholder="Type an exercise name..." type="text" class="form-control col-4" name="exercise">
                             <button (click)="addToRoutine(theExercise.value)" class="btn btn-success col-2 responsive-width" style="margin-left: 10px;">Add Exercise</button>
                         </div>
-                <!-- TODO: Hidden input should get the user from the $_SESSION object and set it here -->
-                        <input ngModel name="user" value="user1" type="hidden">
                     </form>
                 </div>
                 

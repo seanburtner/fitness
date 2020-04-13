@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php
 // SAVE-ROUTINE.PHP IS CALLED WHEN USERS FINISHING CREATING A NEW ROUTINE - RECEIVES A POST REQUEST
 // CONTAINING ROUTINE TITLE, LIST OF EXERCISES, AND USERNAME/ID
@@ -36,7 +37,8 @@ header('Access-Control-Allow-Credentials: true');
 // Extract the POST request data
 $title = $_POST["title"];
 $exercises = $_POST["exercise"];
-$user = $_POST["user"]; // todo: extract from $_SESSION
+$user = $_POST["user"];
+$_SESSION['user'] = $user;
 
 // Check to see if this user already has a routine with this name; if so, return error
 // Construct and prepare query
@@ -45,7 +47,7 @@ $statement = $db->prepare($query);
 
 // Execute query and fetch results
 $statement->bindValue(':title', $title);
-$statement->bindValue(':user', $user);
+$statement->bindValue(':user', $_SESSION['user']);
 $statement->execute();
 $result = $statement->fetch();
 $statement->closeCursor();
@@ -63,7 +65,7 @@ else {
     // Fill placeholders and execute query
     $statement->bindValue(':title', $title);
     $statement->bindValue(':exercises', $exercises);
-    $statement->bindValue(':user', $user);
+    $statement->bindValue(':user', $_SESSION['user']);
     $statement->execute();
     $statement->closeCursor();
 

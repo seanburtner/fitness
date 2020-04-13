@@ -69,7 +69,7 @@ export class RoutineEditorComponent implements OnInit {
       let parameters = new FormData();
       parameters.append("title", form.title);
       parameters.append("exercise", form.exercise);
-      parameters.append("user", 'user1');
+      parameters.append("user", window.sessionStorage.getItem('user'));
 
       // Send POST request to backend to save the routine
       this.http.post('http://localhost/fitnessphp/save-routine.php', parameters).subscribe( (data) => {

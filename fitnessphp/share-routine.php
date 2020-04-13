@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php
 // SHARE-ROUTINE.PHP IS CALLED WHEN USERS SHARE A ROUTINE ON THE ROUTINES PAGE; RECEIVES
 // A POST REQUEST CONTAINING A ROUTINE TITLE TO SHARE, THE USER SENDING THE REQUEST,
@@ -35,7 +36,8 @@ function doesUserExist($username, $db) {
 // Extract the POST request data
 $title = $_POST["routineToShare"];
 $recipient = trim($_POST["recipient"]);
-$user = $_POST["user"]; //TODO: get from $_SESSION
+$user = $_POST["user"];
+$_SESSION['user'] = $user;
 
 // First check to see that a valid username was entered.
 $found = doesUserExist($recipient, $db);
@@ -50,7 +52,7 @@ if ($found == false) {
 
     // Fill placeholder and execute query
     $statement->bindValue(':title', $title);
-    $statement->bindValue(':user', $user);
+    $statement->bindValue(':user', $_SESSION['user']);
     $statement->execute();
     $result = $statement->fetch();
     $statement->closeCursor();
