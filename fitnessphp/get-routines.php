@@ -13,25 +13,20 @@ header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 header('Access-Control-Allow-Credentials: true');
 
 // Retrieve user from the request URL (TODO: SHOULD GET IT FROM A SESSION-MAINTENANCE FEATURE)
-// $user = $_SESSION['user'];
-$user = $_GET['user'];
+$user = $_POST['user'];
+$_SESSION['user'] = $user;
 
 // Construct and prepare query
-$query = "SELECT * FROM routines"; // TODO: where user = $_SESSION['user']...
+$query = "SELECT * FROM routines WHERE user = :user";
 $statement = $db->prepare($query);
 
 // Execute query and fetch results
+$statement->bindValue(':user', $_SESSION['user']);
 $statement->execute();
 $results = $statement->fetchAll();
 $statement->closeCursor();
 
-// Testing around to see if you can access user in session :(
-$currentUser = "unset user";
-if (isset($_SESSION['user'])) {
-    $currentUser = $_SESSION['user'];
-}
-
 // Send data back to routines.component.ts
-echo json_encode(['content'=>$results, 'currentUser'=>$currentUser]);
+echo json_encode(['content'=>$results]);
 
 ?>

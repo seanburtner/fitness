@@ -24,20 +24,17 @@ export class RoutinesComponent implements OnInit {
   ngOnInit(): void {
     // Retrieve user's list of routines from the server.
     
-    // TODO: Figure out how to get the current username/id. For now just setting it to user1.
-    // We probably don't want to pass the user through the URL (naive implementation); probably
-    // should set the $_SESSION object or COOKIE to the current user when they login, then in the get-routines 
-    // php file retrieve the user there. I guess we won't even need any parameters once we do this.
-    let user = 'user1';
-    
-    // Construct and send the get request.
-    this.http.get('http://localhost/fitnessphp/get-routines.php?user=' + user).subscribe( (data) => {
+    // Get the current user from session storage
+    let parameters = new FormData();
+    parameters.append('user', window.sessionStorage.getItem('user'));
+
+    // Construct and send the post request.
+    this.http.post('http://localhost/fitnessphp/get-routines.php', parameters).subscribe( (data) => {
         // Display response in console, and update the routines array.
         console.log('Response ', data);
 
         // Process data and update this.routines. Start by getting the array of routines from the data stream:
         let retrievedRoutines = data['content'];
-        console.log('Current user!', data['currentUser']); // this was for testing to try to see current user via SESSION
 
         // Iterate through routines to isolate the title and list of exercises from each.
         var i;
@@ -74,7 +71,7 @@ export class RoutinesComponent implements OnInit {
     // --------  Retrieve the list of user's shared routines.  -----------
 
     // Construct and send the get request.
-    this.http.get('http://localhost/fitnessphp/get-shared-routines.php?user=' + user).subscribe( (data2) => {
+    this.http.post('http://localhost/fitnessphp/get-shared-routines.php', parameters).subscribe( (data2) => {
         // Display response in console, and update the routines array.
         console.log('Response ', data2);
 
@@ -122,7 +119,7 @@ export class RoutinesComponent implements OnInit {
     let parameters = new FormData();
     parameters.append("routineToShare", form.routineToShare);
     parameters.append("recipient", form.recipient);
-    parameters.append("user", 'user1');
+    parameters.append("user", window.sessionStorage.getItem('user'));
 
     // Construct and send the POST request
     this.http.post('http://localhost/fitnessphp/share-routine.php', parameters).subscribe( (data) => {

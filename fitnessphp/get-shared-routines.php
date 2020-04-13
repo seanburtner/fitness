@@ -12,15 +12,16 @@ header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 header('Access-Control-Allow-Credentials: true');
 
-// Retrieve user from the request URL (TODO: SHOULD GET IT FROM A SESSION-MAINTENANCE FEATURE)
-// $user = $_SESSION['user'];
-$user = $_GET['user'];
+// Retrieve user from the request URL
+$user = $_POST['user'];
+$_SESSION['user'] = $user;
 
 // Construct and prepare query
-$query = "SELECT * FROM sharedRoutines"; // TODO: where user = $_SESSION['user']...
+$query = "SELECT * FROM sharedRoutines WHERE user = :user";
 $statement = $db->prepare($query);
 
 // Execute query and fetch results
+$statement->bindValue(':user', $_SESSION['user']);
 $statement->execute();
 $results = $statement->fetchAll();
 $statement->closeCursor();
