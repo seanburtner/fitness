@@ -62,6 +62,12 @@ export class RoutineEditorComponent implements OnInit {
     else {
       // Save the routine to the backend, attaching user information as well.
 
+      // Remove commas from any exercise names
+      for (let i=0; i < this.exercises.length; i++) {
+        let str = this.exercises[i];
+        this.exercises[i] = str.replace(/,/g, "");
+      }
+
       // Set the form's exercise to be the exercises array
       form.exercise = JSON.stringify(this.exercises);
       
@@ -91,6 +97,10 @@ export class RoutineEditorComponent implements OnInit {
           } else { // Otherwise set the focus to the routine name
             this.routineName.nativeElement.focus();
           }
+        }
+        // If title is too long
+        else if (data['content'] == 'Too long') {
+          window.alert("Title cannot exceed 50 characters. Please enter a new title");
         }
       }, (error) => {
         // If error

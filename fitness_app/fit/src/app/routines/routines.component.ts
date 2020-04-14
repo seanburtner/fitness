@@ -153,6 +153,7 @@ export class RoutinesComponent implements OnInit {
       // If successful
       if (data['content'] == 'Success') {
         window.alert("Routine shared!");
+        location.reload();
       } 
 
       // If recipient not found

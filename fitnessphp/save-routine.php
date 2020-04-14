@@ -41,54 +41,59 @@ $exercises = $_POST["exercise"];
 $user = $_POST["user"];
 $_SESSION['user'] = $user;
 
-// Check to see if this user already has a routine with this name
-// Construct and prepare query
-$query = "SELECT * FROM routines WHERE title=:title and user=:user";
-$statement = $db->prepare($query);
+// Make sure the title doesn't exceed 50 characters
+if (strlen($title) > 50) {
+    echo json_encode(['content'=>'Too long']);
+} else {
+    // Check to see if this user already has a routine with this name
+    // Construct and prepare query
+    $query = "SELECT * FROM routines WHERE title=:title and user=:user";
+    $statement = $db->prepare($query);
 
-// Execute query and fetch results
-$statement->bindValue(':title', $title);
-$statement->bindValue(':user', $_SESSION['user']);
-$statement->execute();
-$result = $statement->fetch();
-$statement->closeCursor();
+    // Execute query and fetch results
+    $statement->bindValue(':title', $title);
+    $statement->bindValue(':user', $_SESSION['user']);
+    $statement->execute();
+    $result = $statement->fetch();
+    $statement->closeCursor();
 
-// If the user does have a routine with this name, see if overwrite is enabled
-if ($result != false) {
-    // If overwrite is true or set to string true, we need to update the table entry
-    if ($overwrite == 'true') {
-        $query = "UPDATE routines SET title=:title, exercises=:exercises, user=:user WHERE title=:title and user=:user";
+    // If the user does have a routine with this name, see if overwrite is enabled
+    if ($result != false) {
+        // If overwrite is true or set to string true, we need to update the table entry
+        if ($overwrite == 'true') {
+            $query = "UPDATE routines SET title=:title, exercises=:exercises, user=:user WHERE title=:title and user=:user";
+            $statement = $db->prepare($query);
+
+            // Execute query and fetch results
+            $statement->bindValue(':title', $title);
+            $statement->bindValue(':exercises', $exercises);
+            $statement->bindValue(':user', $_SESSION['user']);
+            $statement->execute();
+            $result = $statement->fetch();
+            $statement->closeCursor();
+
+            echo json_encode(['content'=>'Updated']);
+        } 
+        // Else, they unintentionally made a duplicate
+        else {
+            echo json_encode(['content'=>'Duplicate']);
+        }
+    } 
+    // Otherwise, it's a new routine, so add the routine and return success
+    else {
+        // Create query, with placeholders for the required data
+        $query = "INSERT INTO routines (title, exercises, user) VALUES (:title, :exercises, :user)";
         $statement = $db->prepare($query);
 
-        // Execute query and fetch results
+        // Fill placeholders and execute query
         $statement->bindValue(':title', $title);
         $statement->bindValue(':exercises', $exercises);
         $statement->bindValue(':user', $_SESSION['user']);
         $statement->execute();
-        $result = $statement->fetch();
         $statement->closeCursor();
 
-        echo json_encode(['content'=>'Updated']);
-    } 
-    // Else, they unintentionally made a duplicate
-    else {
-        echo json_encode(['content'=>'Duplicate']);
+        // routine-editor.component.ts is expecting a response; echo the data for confirmation
+        echo json_encode(['content'=>'Success']);
     }
-} 
-// Otherwise, it's a new routine, so add the routine and return success
-else {
-    // Create query, with placeholders for the required data
-    $query = "INSERT INTO routines (title, exercises, user) VALUES (:title, :exercises, :user)";
-    $statement = $db->prepare($query);
-
-    // Fill placeholders and execute query
-    $statement->bindValue(':title', $title);
-    $statement->bindValue(':exercises', $exercises);
-    $statement->bindValue(':user', $_SESSION['user']);
-    $statement->execute();
-    $statement->closeCursor();
-
-    // routine-editor.component.ts is expecting a response; echo the data for confirmation
-    echo json_encode(['content'=>'Success']);
 }
 ?>

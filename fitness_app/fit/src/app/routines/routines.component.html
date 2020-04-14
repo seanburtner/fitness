@@ -58,12 +58,12 @@
     </div> <br>
 
     <!-- Display the share a routine form. -->
-    <div class="row">
+    <div class="row" *ngIf="routines.length != 0" style="margin-bottom: 15px;">
         <p class="white inline lead" style="margin-left: 15px;">Select a routine and enter a username to share: </p>
         <!-- Begin form -->
         <form class="inline col" #shareForm="ngForm" (ngSubmit)="shareRoutine(shareForm.value)">
             <!-- The dropdown to select a routine -->
-            <select ngModel name="routineToShare" id="routine_name" class="form-control inline col-4" style="margin-right: 15px;">
+            <select ngModel="Select Routine" name="routineToShare" id="routine_name" class="form-control inline col-4" style="margin-right: 15px;">
                 <option>Select Routine</option>
                 <option *ngFor="let routine of routines">{{routine.title}}</option>
             </select>
@@ -71,8 +71,8 @@
             <input ngModel type="text" name="recipient" placeholder="Enter a username..." class="form-control inline col-4" style="margin-right: 15px;">
             <!-- Submit button -->
             <input type="submit" class="btn btn-light inline" id="share" value="Share" style="margin-bottom: 3px;">
-        </form>
-    </div> <br>
+        </form> <br>
+    </div>
 </div>
 
 <!-- END MY ROUTINES -------------------------------------->
@@ -84,7 +84,9 @@
     <div class="row">
         <h2 class="col white" id="sharedRoutines">Shared with me</h2>
     </div>
-    <div #link> <a class=text-primary (click)="showSharedRoutines()">Click to show</a> </div>
+    <div #link *ngIf="shared_routines.length > 0"> <a class=text-primary (click)="showSharedRoutines()">Click to show</a> </div>
+    <div class="row" *ngIf="shared_routines.length == 0"><p class="lead white">You haven't received a shared routine yet. Share one of yours
+         and you might get one back!</p></div>
 </div>
 
 
