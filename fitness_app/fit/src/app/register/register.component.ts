@@ -70,8 +70,15 @@ export class RegisterComponent implements OnInit {
             window.alert('User successfully created. Please login with your new credentials.')
             this.router.navigate(['/']);
           } 
-          // If Error, display error message, clear fields, and keep on register page.
-          else if (data['content'] == 'Error') {
+          // If Too long error, display error message, clear fields, and keep on register page.
+          else if (data['content'] == 'Too long') {
+            window.alert('Email addresses cannot exceed 50 characters. Please try a different email.');
+            this.email.nativeElement.value = "";
+            this.password.nativeElement.value = "";
+            this.email.nativeElement.focus();
+          }
+          // If Already exists error, display error message, clear fields, and keep on register page.
+          else if (data['content'] == 'Already exists') {
             window.alert('A user with that email already exists. Please try a different email.');
             this.email.nativeElement.value = "";
             this.password.nativeElement.value = "";

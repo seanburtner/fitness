@@ -20,21 +20,14 @@
                             <label>Password</label>
                             <input #password class="form-control" type="password" name="password">
                         </div> <!-- form-group// --> 
-                        <!-- Functionless forgot password link, will send email eventually -->
-                        <a class="float-right" href="#">Forgot your password?</a>
-                        <div class="form-group"> 
-                            <div class="checkbox">
-                                <label> <input type="checkbox"> Remember me </label>
-                            </div> <!-- checkbox .// -->
-                        </div> <!-- form-group// -->  
                         <!-- Change button text when mouse hovers -->
                         <div class="form-group" margin="0px 100px">
                             <button #login (mouseover)="gitFit()" (mouseleave)="restore()" type="submit" class="btn btn-primary btn-block"> Login  </button>
                         </div> <!-- form-group// -->                                                           
                     </form>
-                    <!-- Functionless register link, will implement when backend is created -->
+                    <!-- Register new users -->
                     <p>New user? <a href="/register">Register here.</a></p>
-                    <a href='/routines'>Enter app without signing in</a>
+                    <!-- <a href='/routines'>Enter app without signing in</a> -->
                 </div>
             </div>
         </div>

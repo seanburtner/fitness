@@ -22,14 +22,14 @@ export class RoutineEditorComponent implements OnInit {
     private http: HttpClient
   ) { }
 
-  /* addToRoutine using the service
-  addToRoutine(exercise) {
-    this.routineEditorService.addToRoutine(exercise);
-    window.alert('Exercise added!')
-  } */
-
   presetRoutineName = '';
   exercises = [];
+
+  // Sign out method
+  signOut() {
+    // Clear session storage
+    window.sessionStorage.clear();
+  }
 
   // If the routine name is empty, display the error message. Otherwise, hide it. ARROW FUNCTION ERROR MESSAGES
   nameValidation = () => {
@@ -53,6 +53,11 @@ export class RoutineEditorComponent implements OnInit {
     }
   }
 
+  // Remove exercise from exercise list
+  removeExercise(exerciseToRemove : any) {
+    this.exercises.splice(exerciseToRemove, 1);
+  }
+
   // Save routine and redirect to routines page ANONYMOUS FUNCTION DOM MANIPULATION
   saveRoutine = function(form: any) {
     var name = this.routineName.nativeElement.value;
@@ -62,6 +67,12 @@ export class RoutineEditorComponent implements OnInit {
     else {
       // Save the routine to the backend, attaching user information as well.
 
+      // Remove commas from any exercise names
+      for (let i=0; i < this.exercises.length; i++) {
+        let str = this.exercises[i];
+        this.exercises[i] = str.replace(/,/g, "");
+      }
+
       // Set the form's exercise to be the exercises array
       form.exercise = JSON.stringify(this.exercises);
       
@@ -69,6 +80,7 @@ export class RoutineEditorComponent implements OnInit {
       let parameters = new FormData();
       parameters.append("title", form.title);
       parameters.append("exercise", form.exercise);
+      parameters.append("overwrite", 'false');
       parameters.append("user", window.sessionStorage.getItem('user'));
 
       // Send POST request to backend to save the routine
@@ -79,21 +91,38 @@ export class RoutineEditorComponent implements OnInit {
           window.alert("Routine saved!");
           this.router.navigate(['/routines']);
         }
-        // If duplicate routine
+        // If duplicate routine, check to see if they want to overwrite the data
         else if (data['content'] == 'Duplicate') {
-          window.alert("You already have a routine with this name. Please choose a new name.");
+          // If they select yes, resend the post request with overwrite set to true
+          if(confirm("You already have a routine with this name. Click OK to overwrite it, or cancel to change the name.")) {
+            parameters.set('overwrite','true');
+            this.http.post('http://localhost/fitnessphp/save-routine.php', parameters).subscribe();
+            window.alert("Routine updated!");
+            this.router.navigate(['/routines']);
+          } else { // Otherwise set the focus to the routine name
+            this.routineName.nativeElement.focus();
+          }
+        }
+        // If title is too long
+        else if (data['content'] == 'Too long') {
+          window.alert("Title cannot exceed 50 characters. Please enter a new title");
         }
       }, (error) => {
         // If error
         console.log('Error', error);
         window.alert('An error occurred saving your routine. Please try again.')
-        location.reload();
+        //location.reload();
       }
       )
     }
   }
 
   ngOnInit(): void {
+    // Check to see if the user is logged in. If not, redirect to login.
+    if (window.sessionStorage.getItem('loggedIn') != 'true') {
+      this.router.navigate(['/']);
+    }
+
     // See if the user is trying to edit a routine
     let params = new URLSearchParams(window.location.search);
     // If the URL has parameters, prepopulate the form

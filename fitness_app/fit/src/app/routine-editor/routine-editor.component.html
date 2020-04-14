@@ -12,7 +12,7 @@
             <a routerLink="/workout" ngbNavLink>My Workout</a>
         </li>
         <li class="ml-auto" style="padding: 5px 5px;">
-            <a routerLink="/" style="padding: 0px 10px;">Sign out</a>
+            <a routerLink="/" (click)="signOut()" style="padding: 0px 10px;">Sign out</a>
         </li>
     </ul>
     <div [ngbNavOutlet]="nav"></div>
@@ -35,7 +35,7 @@
                                 <h5 class="col-3">Routine Name</h5>
                                 <input ngModel="{{ presetRoutineName }}" autofocus #routineName type="text" class="form-control col-7" name="title" (blur)="nameValidation()">
                                 <small #nameError style="color: red; display: none">You must enter a routine name.</small>
-                            </div>
+                            </div> <br>
                             <hr>
                         </div>
                 <!-- Add exercises field -->
@@ -50,7 +50,10 @@
                 <div *ngIf="exercises.length != 0">
                     <p class="lead">Exercises:</p> 
                     <ul>
-                        <li *ngFor="let exercise of exercises">{{ exercise }}</li>
+                        <li *ngFor="let exercise of exercises; index as i" style="margin-bottom: 5px;">
+                            {{ exercise }}
+                            <button #remove class="btn btn-danger btn-small" (click)="removeExercise(remove.value)" style="padding: 1px 8px;"  value="{{i}}">X</button>
+                        </li>
                     </ul> 
                     <!-- Submit button; calls saveRoutine -->
                     <form #submitForm="ngForm" (ngSubmit)="saveRoutine(routineForm.value)">

@@ -12,7 +12,6 @@ header('Access-Control-Allow-Origin: http://localhost:4200');
 header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Authorization, Accept, Client-Security-Token, Accept-Encoding');
 header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
-header('Access-Control-Allow-Credentials: true');
 
 function doesUserExist($username, $db) {
     // Create and prepare query
@@ -60,7 +59,7 @@ if ($found == false) {
     // If somehow this routine couldn't be found, return an error
     if ($result == false) {
         echo json_encode(['content'=>'Error']);
-    } else { // Otherwise insert the routine into the shared routines table
+    } else { // Otherwise insert the routine into the shared routines table (if not a duplicate)
 
         // Extract the routine data
         $new_title = $result['title'];
@@ -69,18 +68,40 @@ if ($found == false) {
         // The user field of the new routine should be the recipient
         $new_user = $recipient;
 
-        // Create query, with placeholders for the required data
-        $query = "INSERT INTO sharedRoutines (title, exercises, user) VALUES (:title, :exercises, :user)";
+        // Check to see if this recipient already has a shared routine with this name and sender
+        // Construct and prepare query
+        $query = "SELECT * FROM sharedRoutines WHERE title=:title and exercises=:exercises and user=:user and sender=:sender";
         $statement = $db->prepare($query);
 
-        // Fill placeholders and execute query
+        // Execute query and fetch results
         $statement->bindValue(':title', $new_title);
         $statement->bindValue(':exercises', $new_exercises);
         $statement->bindValue(':user', $new_user);
+        $statement->bindValue(':sender', $_SESSION['user']);
         $statement->execute();
+        $result = $statement->fetch();
         $statement->closeCursor();
+        
+        // If they do not have this shared routine already, insert it
+        if ($result == false) {
+            // Create query, with placeholders for the required data
+            $query = "INSERT INTO sharedRoutines (title, exercises, user, sender) VALUES (:title, :exercises, :user, :sender)";
+            $statement = $db->prepare($query);
 
-        echo json_encode(['content'=>'Success']);
+            // Fill placeholders and execute query
+            $statement->bindValue(':title', $new_title);
+            $statement->bindValue(':exercises', $new_exercises);
+            $statement->bindValue(':user', $new_user);
+            $statement->bindValue(':sender', $_SESSION['user']);
+            $statement->execute();
+            $statement->closeCursor();
+
+            echo json_encode(['content'=>'Success']);
+        }
+        // Otherwise, return duplicate error
+        else {
+            echo json_encode(['content'=>'Duplicate']);
+        }
     }
 }
 

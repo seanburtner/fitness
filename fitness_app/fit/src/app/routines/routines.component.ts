@@ -5,6 +5,7 @@ import { exampleRoutines } from '../example-routines';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { stringify } from 'querystring';
 import { Router } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-routines',
@@ -16,12 +17,22 @@ export class RoutinesComponent implements OnInit {
   @ViewChild('link') link: ElementRef;
   routines = [];
   shared_routines = [];
+  current_user = '';
   
   constructor( 
     private http: HttpClient,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+    // Check to see if the user is logged in. If not, redirect to login.
+    if (window.sessionStorage.getItem('loggedIn') != 'true') {
+      this.router.navigate(['/']);
+    }
+
+    // Set current user
+    this.current_user = window.sessionStorage.getItem('user');
+
     // Retrieve user's list of routines from the server.
     
     // Get the current user from session storage
@@ -79,7 +90,7 @@ export class RoutinesComponent implements OnInit {
         let retrievedRoutines2 = data2['content'];
 
         // Iterate through routines to isolate the title and list of exercises from each, and append to array.
-        let title2, exerciseList2, routine2;
+        let title2, exerciseList2, routine2, sender;
         for (let i = 0; i < retrievedRoutines2.length; i++) {
           // Get title
           title2 = retrievedRoutines2[i][0];
@@ -92,11 +103,15 @@ export class RoutinesComponent implements OnInit {
             let exercise2 = exerciseList2[j]
             exerciseList2[j] = exercise2.slice(1, exercise2.length-1);
           } // now it's an array of strings!
+
+          // Get sender
+          sender = retrievedRoutines2[i][3];
           
           // Create a routine object and append it to the array of routines
           routine2 = {
             title: title2,
-            exercises: exerciseList2
+            exercises: exerciseList2,
+            sender: sender
           }
           this.shared_routines.push(routine2);
         }
@@ -108,6 +123,12 @@ export class RoutinesComponent implements OnInit {
   })
 }
 
+  // Sign out method
+  signOut() {
+  // Clear session storage
+  window.sessionStorage.clear();
+  }
+
   // Show the shared routines section when link is clicked
   showSharedRoutines() {
     this.shared.nativeElement.style.display = "block";
@@ -115,6 +136,14 @@ export class RoutinesComponent implements OnInit {
   }
 
   shareRoutine(form:any){
+    // If trying to share with themselves, display alert. If parameters unfilled, show alert.
+    if (form.recipient == window.sessionStorage.getItem('user')) {
+      window.alert("You cannot share a routine with yourself.");
+      return;
+    } else if (form.recipient == "" || form.routineToShare == "") {
+      window.alert("Please select a routine and enter a username.");
+      return;
+    }
     // Set the parameters to send to share-routine.php
     let parameters = new FormData();
     parameters.append("routineToShare", form.routineToShare);
@@ -128,6 +157,7 @@ export class RoutinesComponent implements OnInit {
       // If successful
       if (data['content'] == 'Success') {
         window.alert("Routine shared!");
+        location.reload();
       } 
 
       // If recipient not found
@@ -135,18 +165,23 @@ export class RoutinesComponent implements OnInit {
         window.alert("User not found. Please try again.");
       }
 
+      // If this routine has already been shared
+      else if (data['content'] == 'Duplicate') {
+        window.alert("You have already shared this routine with this user.");
+      }
+
       // Unknown error
       else if (data['content'] == 'Error') {
         window.alert("Unknown error occured. Please try again.");
+        location.reload();
       }
     }, (error) => {
       // If error
       console.log('Error', error);
       window.alert('An error occurred sharing your routine. Please try again.')
+      location.reload();
     }
     )
-
-    location.reload();
   }
   }
 
