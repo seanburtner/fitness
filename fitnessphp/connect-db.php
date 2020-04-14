@@ -38,7 +38,7 @@ try
       // Table exists.
    } else {
       // Table does not exist. Create the table.
-      $query = "CREATE TABLE sharedRoutines ( title VARCHAR(50) NOT NULL , exercises VARCHAR(1000) NOT NULL , user VARCHAR(50) NOT NULL )";
+      $query = "CREATE TABLE sharedRoutines ( title VARCHAR(50) NOT NULL , exercises VARCHAR(1000) NOT NULL , user VARCHAR(50) NOT NULL, sender VARCHAR(50) NOT NULL )";
       $statement = $db->prepare($query);
       $statement->execute();
       $statement->closeCursor();

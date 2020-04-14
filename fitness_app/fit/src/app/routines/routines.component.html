@@ -56,13 +56,14 @@
             </a>
         </div>
     </div> <br>
+
     <!-- Display the share a routine form. -->
     <div class="row">
         <p class="white inline lead" style="margin-left: 15px;">Select a routine and enter a username to share: </p>
         <!-- Begin form -->
         <form class="inline col" #shareForm="ngForm" (ngSubmit)="shareRoutine(shareForm.value)">
             <!-- The dropdown to select a routine -->
-            <select ngModel name="routineToShare" id="routine_name" class="form-control inline col-3" style="margin-right: 15px;">
+            <select ngModel name="routineToShare" id="routine_name" class="form-control inline col-4" style="margin-right: 15px;">
                 <option>Select Routine</option>
                 <option *ngFor="let routine of routines">{{routine.title}}</option>
             </select>
@@ -93,7 +94,8 @@
         <div class="brightness col-4" *ngFor="let shared_routine of shared_routines">
             <div class="card">
                 <div class="card-header">
-                    <h4> {{ shared_routine.title }} </h4>
+                    <h4 style='margin-bottom: 5px;'> {{ shared_routine.title }} </h4>
+                    <i class="inline" style="font-size: 12pt;">Shared by: {{ shared_routine.sender }}</i>
                 </div>
                 <div class="card-body">
                     <ul>

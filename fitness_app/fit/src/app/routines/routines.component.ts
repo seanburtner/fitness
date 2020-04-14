@@ -86,7 +86,7 @@ export class RoutinesComponent implements OnInit {
         let retrievedRoutines2 = data2['content'];
 
         // Iterate through routines to isolate the title and list of exercises from each, and append to array.
-        let title2, exerciseList2, routine2;
+        let title2, exerciseList2, routine2, sender;
         for (let i = 0; i < retrievedRoutines2.length; i++) {
           // Get title
           title2 = retrievedRoutines2[i][0];
@@ -99,11 +99,15 @@ export class RoutinesComponent implements OnInit {
             let exercise2 = exerciseList2[j]
             exerciseList2[j] = exercise2.slice(1, exercise2.length-1);
           } // now it's an array of strings!
+
+          // Get sender
+          sender = retrievedRoutines2[i][3];
           
           // Create a routine object and append it to the array of routines
           routine2 = {
             title: title2,
-            exercises: exerciseList2
+            exercises: exerciseList2,
+            sender: sender
           }
           this.shared_routines.push(routine2);
         }
@@ -154,6 +158,11 @@ export class RoutinesComponent implements OnInit {
       // If recipient not found
       else if (data['content'] == 'User not found') {
         window.alert("User not found. Please try again.");
+      }
+
+      // If this routine has already been shared
+      else if (data['content'] == 'Duplicate') {
+        window.alert("You have already shared this routine with this user.");
       }
 
       // Unknown error

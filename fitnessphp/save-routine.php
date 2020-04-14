@@ -41,9 +41,9 @@ $exercises = $_POST["exercise"];
 $user = $_POST["user"];
 $_SESSION['user'] = $user;
 
-// Check to see if this user already has a routine with this name; if so, return error
+// Check to see if this user already has a routine with this name
 // Construct and prepare query
-$query = "SELECT * FROM routines WHERE title=:title and user=:user"; // TODO: where user = $_SESSION['user']...
+$query = "SELECT * FROM routines WHERE title=:title and user=:user";
 $statement = $db->prepare($query);
 
 // Execute query and fetch results
@@ -57,7 +57,7 @@ $statement->closeCursor();
 if ($result != false) {
     // If overwrite is true or set to string true, we need to update the table entry
     if ($overwrite == 'true') {
-        $query = "UPDATE routines SET title=:title, exercises=:exercises, user=:user WHERE title=:title and user=:user"; // TODO: where user = $_SESSION['user']...
+        $query = "UPDATE routines SET title=:title, exercises=:exercises, user=:user WHERE title=:title and user=:user";
         $statement = $db->prepare($query);
 
         // Execute query and fetch results
