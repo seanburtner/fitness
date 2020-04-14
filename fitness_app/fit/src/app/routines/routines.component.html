@@ -12,7 +12,7 @@
             <a routerLink="/workout" ngbNavLink>My Workout</a>
         </li>
         <li class="ml-auto" style="padding: 5px 5px;">
-            <a routerLink="/" style="padding: 0px 10px;">Sign out</a>
+            <a routerLink="/" (click)="signOut()" style="padding: 0px 10px;">Sign out</a>
         </li>
     </ul>
     <div [ngbNavOutlet]="nav"></div>

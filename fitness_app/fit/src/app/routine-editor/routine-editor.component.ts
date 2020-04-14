@@ -22,14 +22,14 @@ export class RoutineEditorComponent implements OnInit {
     private http: HttpClient
   ) { }
 
-  /* addToRoutine using the service
-  addToRoutine(exercise) {
-    this.routineEditorService.addToRoutine(exercise);
-    window.alert('Exercise added!')
-  } */
-
   presetRoutineName = '';
   exercises = [];
+
+  // Sign out method
+  signOut() {
+    // Clear session storage
+    window.sessionStorage.clear();
+  }
 
   // If the routine name is empty, display the error message. Otherwise, hide it. ARROW FUNCTION ERROR MESSAGES
   nameValidation = () => {
@@ -69,6 +69,7 @@ export class RoutineEditorComponent implements OnInit {
       let parameters = new FormData();
       parameters.append("title", form.title);
       parameters.append("exercise", form.exercise);
+      parameters.append("overwrite", 'false');
       parameters.append("user", window.sessionStorage.getItem('user'));
 
       // Send POST request to backend to save the routine
@@ -79,21 +80,32 @@ export class RoutineEditorComponent implements OnInit {
           window.alert("Routine saved!");
           this.router.navigate(['/routines']);
         }
-        // If duplicate routine
+        // If duplicate routine, check to see if they want to overwrite the data
         else if (data['content'] == 'Duplicate') {
-          window.alert("You already have a routine with this name. Please choose a new name.");
+          // If they select yes, resend the post request with overwrite set to true
+          if(confirm("You already have a routine with this name. Would you like to overwrite it?")) {
+            parameters.set('overwrite','true');
+            this.http.post('http://localhost/fitnessphp/save-routine.php', parameters).subscribe();
+            window.alert("Routine updated!");
+            this.router.navigate(['/routines']);
+          }
         }
       }, (error) => {
         // If error
         console.log('Error', error);
         window.alert('An error occurred saving your routine. Please try again.')
-        location.reload();
+        //location.reload();
       }
       )
     }
   }
 
   ngOnInit(): void {
+    // Check to see if the user is logged in. If not, redirect to login.
+    if (window.sessionStorage.getItem('loggedIn') != 'true') {
+      this.router.navigate(['/']);
+    }
+
     // See if the user is trying to edit a routine
     let params = new URLSearchParams(window.location.search);
     // If the URL has parameters, prepopulate the form

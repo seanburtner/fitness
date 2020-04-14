@@ -19,9 +19,15 @@ export class RoutinesComponent implements OnInit {
   
   constructor( 
     private http: HttpClient,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+    // Check to see if the user is logged in. If not, redirect to login.
+    if (window.sessionStorage.getItem('loggedIn') != 'true') {
+      this.router.navigate(['/']);
+    }
+
     // Retrieve user's list of routines from the server.
     
     // Get the current user from session storage
@@ -108,6 +114,12 @@ export class RoutinesComponent implements OnInit {
   })
 }
 
+  // Sign out method
+  signOut() {
+  // Clear session storage
+  window.sessionStorage.clear();
+  }
+
   // Show the shared routines section when link is clicked
   showSharedRoutines() {
     this.shared.nativeElement.style.display = "block";
@@ -145,7 +157,6 @@ export class RoutinesComponent implements OnInit {
       window.alert('An error occurred sharing your routine. Please try again.')
     }
     )
-
     location.reload();
   }
   }

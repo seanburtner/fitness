@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
           // If Success, send to the routines page
           if (data['content'] == 'Success') {
             window.sessionStorage.setItem("user", this.email.nativeElement.value);
+            window.sessionStorage.setItem("loggedIn", 'true');
             this.router.navigate(['/routines']);
           } 
           // If Error, display error message, clear fields, and keep on login page.
