@@ -53,6 +53,11 @@ export class RoutineEditorComponent implements OnInit {
     }
   }
 
+  // Remove exercise from exercise list
+  removeExercise(exerciseToRemove : any) {
+    this.exercises.splice(exerciseToRemove, 1);
+  }
+
   // Save routine and redirect to routines page ANONYMOUS FUNCTION DOM MANIPULATION
   saveRoutine = function(form: any) {
     var name = this.routineName.nativeElement.value;

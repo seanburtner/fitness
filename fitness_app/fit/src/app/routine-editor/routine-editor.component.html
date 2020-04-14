@@ -50,7 +50,10 @@
                 <div *ngIf="exercises.length != 0">
                     <p class="lead">Exercises:</p> 
                     <ul>
-                        <li *ngFor="let exercise of exercises">{{ exercise }}</li>
+                        <li *ngFor="let exercise of exercises; index as i" style="margin-bottom: 5px;">
+                            {{ exercise }}
+                            <button #remove class="btn btn-danger btn-small" (click)="removeExercise(remove.value)" style="padding: 1px 8px;"  value="{{i}}">X</button>
+                        </li>
                     </ul> 
                     <!-- Submit button; calls saveRoutine -->
                     <form #submitForm="ngForm" (ngSubmit)="saveRoutine(routineForm.value)">
