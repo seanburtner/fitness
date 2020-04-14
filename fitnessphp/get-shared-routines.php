@@ -1,6 +1,6 @@
-<!-- Colton Demetriou -->
 <?php session_start(); ?>
 <?php
+// Colton Demetriou
 // GET-SHARED-ROUTINES.PHP IS CALLED AS THE ROUTINES PAGE IS LOADED TO FETCH THE CURRENT USER'S SHARED ROUTINES
 
 // Connect to db (also makes table(s) if necessary)

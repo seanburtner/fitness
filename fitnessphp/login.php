@@ -1,6 +1,6 @@
-<!-- Sean Burtner -->
 <?php session_start(); ?>
 <?php 
+// Sean Burtner
 // LOGIN.PHP IS CALLED AS THE ROUTINES PAGE IS LOADED TO FETCH THE CURRENT USER'S ROUTINES
 
 // Connect to db (also makes table(s) if necessary)

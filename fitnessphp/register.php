@@ -1,5 +1,5 @@
-<!-- Sean Burtner -->
 <?php
+// Sean Burtner
 // REGISTER.PHP IS CALLED IF A NEW USER IS TRYING TO REGISTER
 
 // Connect to db (also makes table(s) if necessary)
