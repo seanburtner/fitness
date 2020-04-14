@@ -17,6 +17,7 @@ export class RoutinesComponent implements OnInit {
   @ViewChild('link') link: ElementRef;
   routines = [];
   shared_routines = [];
+  current_user = '';
   
   constructor( 
     private http: HttpClient,
@@ -28,6 +29,9 @@ export class RoutinesComponent implements OnInit {
     if (window.sessionStorage.getItem('loggedIn') != 'true') {
       this.router.navigate(['/']);
     }
+
+    // Set current user
+    this.current_user = window.sessionStorage.getItem('user');
 
     // Retrieve user's list of routines from the server.
     

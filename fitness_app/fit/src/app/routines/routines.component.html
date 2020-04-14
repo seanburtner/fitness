@@ -25,6 +25,7 @@
     <div class="row col">
         <h2 class='white'>My Routines</h2>
         <button class="btn btn-success newRoutine"><a href="/routineEditor" style="color: white;">New Routine</a></button>
+        <p class="lead inline white ml-auto">{{ current_user }}</p>
     </div>
     <div *ngIf="routines.length != 0" class="row col">
         <p class="lead white">Click on a routine to edit it.</p>
