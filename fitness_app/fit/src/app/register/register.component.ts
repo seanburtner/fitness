@@ -1,3 +1,4 @@
+// Sean Burtner
 import { ViewChild, ElementRef, Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { stringify } from 'querystring';
@@ -55,13 +56,8 @@ export class RegisterComponent implements OnInit {
       }
       // SUCCESS: if email is valid, and password field is filled out, send request to backend for verification
       else{
-        // Set up the form parameters
-        let parameters = new FormData();
-        parameters.append("email", email);
-        parameters.append("password", password);
-
-        // Send POST request to backend for verification
-        this.http.post('http://localhost/fitnessphp/register.php', parameters).subscribe( (data) => {
+        // Send GET request to backend for verification
+        this.http.get('http://localhost/fitnessphp/register.php?' + 'email=' + email + '&password=' + password).subscribe( (data) => {
           // Check to see if the response was success or error
           console.log('Response ', data);
 

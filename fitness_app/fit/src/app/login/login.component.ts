@@ -1,3 +1,4 @@
+// Colton Demetriou
 import { ViewChild, ElementRef, Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { stringify } from 'querystring';
