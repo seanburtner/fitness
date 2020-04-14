@@ -1,3 +1,4 @@
+// Sean Burtner
 import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { RoutinesService } from './routines.service';
 // Import example list of routines:

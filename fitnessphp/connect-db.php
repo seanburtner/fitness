@@ -1,3 +1,4 @@
+<!-- Sean Burtner -->
 <?php
 // Handle CORS (MUST UPDATE ON DEPLOYMENT)
 header('Access-Control-Allow-Origin: http://localhost:4200');

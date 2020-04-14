@@ -1,3 +1,4 @@
+<!-- Sean Burtner -->
 <?php
 // REGISTER.PHP IS CALLED IF A NEW USER IS TRYING TO REGISTER
 
@@ -10,9 +11,9 @@ header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Au
 header('Access-Control-Max-Age: 1000');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 
-// Extract the POST request data, trimming spaces at beginning or end
-$email = trim($_POST['email']);
-$password = $_POST['password'];
+// Extract the GET request data, trimming spaces at beginning or end of email
+$email = trim($_GET['email']);
+$password = $_GET['password'];
 
 // Make sure the email does not exceed 50 characters (capacity of table column)
 if (strlen($email) > 50) {

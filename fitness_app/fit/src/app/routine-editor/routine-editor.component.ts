@@ -1,3 +1,4 @@
+// Sean Burtner
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { RoutineEditorService } from '../routine-editor.service';
 import { Router } from '@angular/router';
