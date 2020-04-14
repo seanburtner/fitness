@@ -5,6 +5,7 @@ import { exampleRoutines } from '../example-routines';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { stringify } from 'querystring';
 import { Router } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-routines',
@@ -127,6 +128,14 @@ export class RoutinesComponent implements OnInit {
   }
 
   shareRoutine(form:any){
+    // If trying to share with themselves, display alert. If parameters unfilled, show alert.
+    if (form.recipient == window.sessionStorage.getItem('user')) {
+      window.alert("You cannot share a routine with yourself.");
+      return;
+    } else if (form.recipient == "" || form.routineToShare == "") {
+      window.alert("Please select a routine and enter a username.");
+      return;
+    }
     // Set the parameters to send to share-routine.php
     let parameters = new FormData();
     parameters.append("routineToShare", form.routineToShare);
@@ -150,14 +159,15 @@ export class RoutinesComponent implements OnInit {
       // Unknown error
       else if (data['content'] == 'Error') {
         window.alert("Unknown error occured. Please try again.");
+        location.reload();
       }
     }, (error) => {
       // If error
       console.log('Error', error);
       window.alert('An error occurred sharing your routine. Please try again.')
+      location.reload();
     }
     )
-    location.reload();
   }
   }
 
