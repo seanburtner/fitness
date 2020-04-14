@@ -83,11 +83,13 @@ export class RoutineEditorComponent implements OnInit {
         // If duplicate routine, check to see if they want to overwrite the data
         else if (data['content'] == 'Duplicate') {
           // If they select yes, resend the post request with overwrite set to true
-          if(confirm("You already have a routine with this name. Would you like to overwrite it?")) {
+          if(confirm("You already have a routine with this name. Click OK to overwrite it, or cancel to change the name.")) {
             parameters.set('overwrite','true');
             this.http.post('http://localhost/fitnessphp/save-routine.php', parameters).subscribe();
             window.alert("Routine updated!");
             this.router.navigate(['/routines']);
+          } else { // Otherwise set the focus to the routine name
+            this.routineName.nativeElement.focus();
           }
         }
       }, (error) => {

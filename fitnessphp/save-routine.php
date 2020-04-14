@@ -36,6 +36,7 @@ header('Access-Control-Allow-Credentials: true');
 
 // Extract the POST request data
 $title = $_POST["title"];
+$overwrite = $_POST["overwrite"];
 $exercises = $_POST["exercise"];
 $user = $_POST["user"];
 $_SESSION['user'] = $user;
@@ -52,11 +53,29 @@ $statement->execute();
 $result = $statement->fetch();
 $statement->closeCursor();
 
-// If the user does have a routine with this name, return an error
+// If the user does have a routine with this name, see if overwrite is enabled
 if ($result != false) {
-    echo json_encode(['content'=>'Duplicate']);
+    // If overwrite is true or set to string true, we need to update the table entry
+    if ($overwrite == 'true') {
+        $query = "UPDATE routines SET title=:title, exercises=:exercises, user=:user WHERE title=:title and user=:user"; // TODO: where user = $_SESSION['user']...
+        $statement = $db->prepare($query);
+
+        // Execute query and fetch results
+        $statement->bindValue(':title', $title);
+        $statement->bindValue(':exercises', $exercises);
+        $statement->bindValue(':user', $_SESSION['user']);
+        $statement->execute();
+        $result = $statement->fetch();
+        $statement->closeCursor();
+
+        echo json_encode(['content'=>'Updated']);
+    } 
+    // Else, they unintentionally made a duplicate
+    else {
+        echo json_encode(['content'=>'Duplicate']);
+    }
 } 
-// Otherwise, add the routine and return success
+// Otherwise, it's a new routine, so add the routine and return success
 else {
     // Create query, with placeholders for the required data
     $query = "INSERT INTO routines (title, exercises, user) VALUES (:title, :exercises, :user)";
