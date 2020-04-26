@@ -63,7 +63,7 @@
             </div>
             </a>
         </div>
-    </div> <br>
+    </div> <br> <br>
 
     <!-- Display the share a routine form. -->
     <div class="row" *ngIf="routines.length != 0" style="margin-bottom: 15px;">
@@ -79,8 +79,13 @@
             <input ngModel type="text" name="recipient" placeholder="Enter a username..." class="form-control inline col-4" style="margin-right: 15px;">
             <!-- Submit button -->
             <input type="submit" class="btn btn-light inline" id="share" value="Share" style="margin-bottom: 3px;">
-        </form> <br>
+            <small #inputError style="color: red; display: none">Please select a routine and enter an email to share with.</small> 
+            <small #selfError style="color: red; display: none">You cannot share a routine with yourself.</small> 
+            <small #notFoundError style="color: red; display: none">User not found. Please try again.</small> 
+            <small #duplicateError style="color: red; display: none">You have already shared this routine with this user.</small> 
+        </form>
     </div>
+    <br>
 
     <!-- Display the delete routines form -->
     <div class="row" *ngIf="routines.length != 0" style="margin-bottom: 15px;">
@@ -94,6 +99,7 @@
             </select>
             <!-- Submit button -->
             <input type="submit" class="btn btn-danger inline" id="delete" value="Delete" style="margin-bottom: 3px;">
+            <small #deleteError style="color: red; display: none">Please select a routine to delete.</small> 
         </form> <br>
     </div>
 </div>

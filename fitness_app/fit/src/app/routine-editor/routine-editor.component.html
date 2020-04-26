@@ -35,6 +35,7 @@
                                 <h5 class="col-3">Routine Name</h5>
                                 <input ngModel="{{ presetRoutineName }}" autofocus #routineName type="text" class="form-control col-7" name="title" (blur)="nameValidation()">
                                 <small #nameError style="color: red; display: none">You must enter a routine name.</small>
+                                <small #titleError style="color: red; display: none">Title cannot exceed 50 characters. Please enter a shorter title.</small>
                             </div> <br>
                             <hr>
                         </div>
