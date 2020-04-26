@@ -32,8 +32,8 @@ import { RegisterComponent } from './register/register.component';
     HttpClientModule,
     RouterModule.forRoot([ // order matters - make sure more specific ones come first
       { path: 'routines', component: RoutinesComponent },
-      { path: 'history', component: HistoryComponent},
-      { path: 'workout', component: WorkoutComponent},
+      //{ path: 'history', component: HistoryComponent},
+      //{ path: 'workout', component: WorkoutComponent},
       { path: 'routineEditor', component: RoutineEditorComponent},
       { path: 'register', component: RegisterComponent},
       { path: '', component: LoginComponent},

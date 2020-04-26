@@ -96,6 +96,10 @@ export class LoginComponent implements OnInit {
   } // End of validateForm function
 
   ngOnInit(): void {
+    // Check to see if the user is logged in. If so, redirect to routines.
+    if (window.sessionStorage.getItem('loggedIn') == 'true') {
+      this.router.navigate(['/routines']);
+    }
   }
 
   // Interactive button hover

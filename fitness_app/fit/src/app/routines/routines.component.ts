@@ -184,5 +184,40 @@ export class RoutinesComponent implements OnInit {
     }
     )
   }
+
+  deleteRoutine(form:any) {
+    console.log(form.routineToDelete);
+    if (form.routineToDelete == "Select Routine") {
+      window.alert("Please select a routine to delete.");
+      return;
+    }
+    // Set the parameters to send to share-routine.php
+    let parameters = new FormData();
+    parameters.append("routineToDelete", form.routineToDelete);
+    parameters.append("user", window.sessionStorage.getItem('user'));
+
+    // Construct and send the POST request
+    this.http.post('http://localhost/fitnessphp/delete-routine.php', parameters).subscribe( (data) => {
+      console.log('Response ', data);
+      
+      // If successful
+      if (data['content'] == 'Success') {
+        console.log("Routine deleted!");
+        location.reload();
+      }
+
+      // Unknown error
+      else if (data['content'] == 'Error') {
+        window.alert("Unknown error occured. Please try again.");
+        location.reload();
+      }
+    }, (error) => {
+      // If error
+      console.log('Error', error);
+      window.alert('An error occurred deleting your routine. Please try again.')
+      location.reload();
+    }
+    )
+  }
   }
 

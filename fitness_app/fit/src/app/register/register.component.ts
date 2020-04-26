@@ -20,6 +20,10 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // Check to see if the user is logged in. If so, redirect to routines.
+    if (window.sessionStorage.getItem('loggedIn') == 'true') {
+      this.router.navigate(['/routines']);
+    }
   }
 
   // function to validate login form data
