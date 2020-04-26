@@ -14,6 +14,11 @@ export class LoginComponent implements OnInit {
   @ViewChild('email') email: ElementRef;
   @ViewChild('password') password: ElementRef;
   @ViewChild('login') login : ElementRef;
+  @ViewChild('emailError') emailError: ElementRef;
+  @ViewChild('passwordError') passwordError: ElementRef;
+  @ViewChild('loginError') loginError: ElementRef;
+
+
   constructor(
     private http: HttpClient,
     private router: Router
@@ -23,16 +28,18 @@ export class LoginComponent implements OnInit {
   validateForm(email:String, password:String) {
     // If empty email and password, instruct user to fill in empty fields
     if(email=="" && password==""){
-      window.alert("Please fill in your email and password.");
+      this.emailError.nativeElement.style.display = "block";
+      this.passwordError.nativeElement.style.display = "block";
     }
     // If empty email, instruct user to fill in empty email field
     else if(email=="" && password!=""){
-      this.password.nativeElement.value = "";
-      window.alert("Please enter your email.");
+      this.emailError.nativeElement.style.display = "block";
+      this.passwordError.nativeElement.style.display = "none";
     }
     // If empty password, instruct user to fill in empty password field
     else if(email!="" && password==""){
-      window.alert("Please enter your password.");
+      this.emailError.nativeElement.style.display = "none";
+      this.passwordError.nativeElement.style.display = "block";
     }
     // All fields filled in: check for valid email address
     else {
@@ -46,15 +53,14 @@ export class LoginComponent implements OnInit {
       }
       // if email is not valid, show error
       if(at==false){
-        window.alert("Please enter a valid email.");
-        this.email.nativeElement.value = "";
-        this.password.nativeElement.value = "";
+        this.emailError.nativeElement.style.display = "block";
+        this.passwordError.nativeElement.style.display = "none";
       }
       // SUCCESS: if email is valid, and password field is filled out, send request to backend for verification
       else{
-        // window.alert("Valid email and password!");
-        // this.email.nativeElement.value = "";
-        // this.password.nativeElement.value = "";
+        this.emailError.nativeElement.style.display = "none";
+        this.passwordError.nativeElement.style.display = "none";
+        this.loginError.nativeElement.style.display = "none";
 
         // Set up the form parameters
         let parameters = new FormData();
@@ -74,14 +80,12 @@ export class LoginComponent implements OnInit {
           } 
           // If Error, display error message, clear fields, and keep on login page.
           else if (data['content'] == 'Error') {
-            window.alert('Incorrect email/password.');
-            this.email.nativeElement.value = "";
-            this.password.nativeElement.value = "";
+            this.loginError.nativeElement.style.display = "block";
             this.email.nativeElement.focus();
           }
           // If neither, display unknown error
           else {
-            window.alert('Unknown error encountered. Please try again.');
+            this.loginError.nativeElement.style.display = "block";
             this.email.nativeElement.value = "";
             this.password.nativeElement.value = "";
           }
@@ -96,6 +100,10 @@ export class LoginComponent implements OnInit {
   } // End of validateForm function
 
   ngOnInit(): void {
+    // Check to see if the user is logged in. If so, redirect to routines.
+    if (window.sessionStorage.getItem('loggedIn') == 'true') {
+      this.router.navigate(['/routines']);
+    }
   }
 
   // Interactive button hover

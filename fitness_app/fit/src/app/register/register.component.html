@@ -12,17 +12,22 @@
                         <div class="form-group">
                             <label>Email</label>
                             <input ngModel #email name="" class="form-control" type="email" name="email">
+                            <small #emailError style="color: red; display: none">Please enter a valid email address.</small>
+                            <small #emailLengthError style="color: red; display: none">Email address cannot exceed 50 characters. Please try again with a shorter email.</small>
                         </div>
                         <!-- password input field -->
                         <div class="form-group">
                             <label>Password</label>
                             <input ngModel #password class="form-control" type="password" name="password">
+                            <small #passwordError style="color: red; display: none">Please enter a password.</small>
                         </div>              
                         <!-- register button -->                                           
                         <div class="form-group" margin="0px 100px">
-                            <button type="submit" class="btn btn-primary btn-block"> Register </button>
+                            <button #registerButton type="submit" class="btn btn-primary btn-block"> Register </button>
                         </div>
                     </form>
+                    <small #registerError style="color: red; display: none">A user with this email already exists. Please try again with a different email.</small>
+                    <small #registerSuccess style="color: green; display: none">User successfully created. Please login with your new credentials (redirecting in 5 seconds...).</small>
                 </div>
             </div>
         </div>

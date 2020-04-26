@@ -16,6 +16,7 @@ export class RoutineEditorComponent implements OnInit {
   @ViewChild('theExercise') theExercise: ElementRef;
   @ViewChild('nameError') nameError: ElementRef;
   @ViewChild('routineName') routineName: ElementRef;
+  @ViewChild('titleError') titleError: ElementRef;
 
   constructor(
     private routineEditorService: RoutineEditorService,
@@ -38,10 +39,12 @@ export class RoutineEditorComponent implements OnInit {
     var errorMessage = this.nameError.nativeElement;
 
     if (name.length == 0) {
-      errorMessage.style.display = "inline";
+      errorMessage.style.display = "block";
+      this.titleError.nativeElement.style.display = "none";
     }
     else {
       errorMessage.style.display = "none";
+      this.titleError.nativeElement.style.display = "none";
     }
   }
 
@@ -63,7 +66,8 @@ export class RoutineEditorComponent implements OnInit {
   saveRoutine = function(form: any) {
     var name = this.routineName.nativeElement.value;
     if (name.length == 0) {
-      window.alert("Please enter a routine name.");
+      this.nameError.nativeElement.style.display = "block";
+      this.titleError.nativeElement.style.display = "none";
     }
     else {
       // Save the routine to the backend, attaching user information as well.
@@ -89,7 +93,6 @@ export class RoutineEditorComponent implements OnInit {
         // If successful
         console.log('Response ', data);
         if (data['content'] == 'Success') {
-          window.alert("Routine saved!");
           this.router.navigate(['/routines']);
         }
         // If duplicate routine, check to see if they want to overwrite the data
@@ -98,7 +101,6 @@ export class RoutineEditorComponent implements OnInit {
           if(confirm("You already have a routine with this name. Click OK to overwrite it, or cancel to change the name.")) {
             parameters.set('overwrite','true');
             this.http.post('http://localhost/fitnessphp/save-routine.php', parameters).subscribe();
-            window.alert("Routine updated!");
             this.router.navigate(['/routines']);
           } else { // Otherwise set the focus to the routine name
             this.routineName.nativeElement.focus();
@@ -106,7 +108,8 @@ export class RoutineEditorComponent implements OnInit {
         }
         // If title is too long
         else if (data['content'] == 'Too long') {
-          window.alert("Title cannot exceed 50 characters. Please enter a new title");
+          this.nameError.nativeElement.style.display = "none";
+          this.titleError.nativeElement.style.display = "block";
         }
       }, (error) => {
         // If error

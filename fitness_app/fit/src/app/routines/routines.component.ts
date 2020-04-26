@@ -16,6 +16,12 @@ import { FormBuilder } from '@angular/forms';
 export class RoutinesComponent implements OnInit {
   @ViewChild('shared') shared: ElementRef;
   @ViewChild('link') link: ElementRef;
+  @ViewChild('inputError') inputError: ElementRef;
+  @ViewChild('selfError') selfError: ElementRef;
+  @ViewChild('notFoundError') notFoundError: ElementRef;
+  @ViewChild('duplicateError') duplicateError: ElementRef;
+  @ViewChild('deleteError') deleteError: ElementRef;
+
   routines = [];
   shared_routines = [];
   current_user = '';
@@ -139,10 +145,16 @@ export class RoutinesComponent implements OnInit {
   shareRoutine(form:any){
     // If trying to share with themselves, display alert. If parameters unfilled, show alert.
     if (form.recipient == window.sessionStorage.getItem('user')) {
-      window.alert("You cannot share a routine with yourself.");
+      this.inputError.nativeElement.style.display = "none";
+      this.selfError.nativeElement.style.display = "block";
+      this.notFoundError.nativeElement.style.display = "none";
+      this.duplicateError.nativeElement.style.display = "none";
       return;
-    } else if (form.recipient == "" || form.routineToShare == "") {
-      window.alert("Please select a routine and enter a username.");
+    } else if (form.recipient == "" || form.routineToShare == "" || form.routineToShare == "Select Routine") {
+      this.inputError.nativeElement.style.display = "block";
+      this.selfError.nativeElement.style.display = "none";
+      this.notFoundError.nativeElement.style.display = "none";
+      this.duplicateError.nativeElement.style.display = "none";
       return;
     }
     // Set the parameters to send to share-routine.php
@@ -157,19 +169,24 @@ export class RoutinesComponent implements OnInit {
       
       // If successful
       if (data['content'] == 'Success') {
-        window.alert("Routine shared!");
+        // window.alert("Routine shared!");
         location.reload();
       } 
 
       // If recipient not found
       else if (data['content'] == 'User not found') {
-        window.alert("User not found. Please try again.");
+        this.inputError.nativeElement.style.display = "none";
+        this.selfError.nativeElement.style.display = "none";
+        this.notFoundError.nativeElement.style.display = "block";
+        this.duplicateError.nativeElement.style.display = "none";
       }
 
       // If this routine has already been shared
       else if (data['content'] == 'Duplicate') {
-        window.alert("You have already shared this routine with this user.");
-      }
+        this.inputError.nativeElement.style.display = "none";
+        this.selfError.nativeElement.style.display = "none";
+        this.notFoundError.nativeElement.style.display = "none";
+        this.duplicateError.nativeElement.style.display = "block";      }
 
       // Unknown error
       else if (data['content'] == 'Error') {
@@ -180,6 +197,41 @@ export class RoutinesComponent implements OnInit {
       // If error
       console.log('Error', error);
       window.alert('An error occurred sharing your routine. Please try again.')
+      location.reload();
+    }
+    )
+  }
+
+  deleteRoutine(form:any) {
+    console.log(form.routineToDelete);
+    if (form.routineToDelete == "Select Routine") {
+      this.deleteError.nativeElement.style.display = "block";
+      return;
+    }
+    // Set the parameters to send to share-routine.php
+    let parameters = new FormData();
+    parameters.append("routineToDelete", form.routineToDelete);
+    parameters.append("user", window.sessionStorage.getItem('user'));
+
+    // Construct and send the POST request
+    this.http.post('http://localhost/fitnessphp/delete-routine.php', parameters).subscribe( (data) => {
+      console.log('Response ', data);
+      
+      // If successful
+      if (data['content'] == 'Success') {
+        console.log("Routine deleted!");
+        location.reload();
+      }
+
+      // Unknown error
+      else if (data['content'] == 'Error') {
+        window.alert("Unknown error occured. Please try again.");
+        location.reload();
+      }
+    }, (error) => {
+      // If error
+      console.log('Error', error);
+      window.alert('An error occurred deleting your routine. Please try again.')
       location.reload();
     }
     )

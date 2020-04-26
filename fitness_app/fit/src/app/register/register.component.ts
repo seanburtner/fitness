@@ -13,6 +13,12 @@ export class RegisterComponent implements OnInit {
   // get data from form
   @ViewChild('email') email: ElementRef;
   @ViewChild('password') password: ElementRef;
+  @ViewChild('emailError') emailError: ElementRef;
+  @ViewChild('emailLengthError') emailLengthError: ElementRef;
+  @ViewChild('passwordError') passwordError: ElementRef;
+  @ViewChild('registerError') registerError: ElementRef;
+  @ViewChild('registerSuccess') registerSuccess: ElementRef;
+  @ViewChild('registerButton') registerButton: ElementRef;
 
   constructor(
     private http: HttpClient,
@@ -20,6 +26,10 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // Check to see if the user is logged in. If so, redirect to routines.
+    if (window.sessionStorage.getItem('loggedIn') == 'true') {
+      this.router.navigate(['/routines']);
+    }
   }
 
   // function to validate login form data
@@ -30,15 +40,24 @@ export class RegisterComponent implements OnInit {
 
     // If empty email and password, instruct user to fill in empty fields
     if(email=="" && password==""){
-      window.alert("Please fill in an email and password.");
+      this.emailError.nativeElement.style.display = "block";
+      this.passwordError.nativeElement.style.display = "block";
+      this.registerError.nativeElement.style.display = "none";
+      this.emailLengthError.nativeElement.style.display = "none";
     }
     // If empty email, instruct user to fill in empty email field
     else if(email=="" && password!=""){
-      window.alert("Please enter an email.");
+      this.emailError.nativeElement.style.display = "block";
+      this.passwordError.nativeElement.style.display = "none";
+      this.registerError.nativeElement.style.display = "none";
+      this.emailLengthError.nativeElement.style.display = "none";
     }
     // If empty password, instruct user to fill in empty password field
     else if(email!="" && password==""){
-      window.alert("Please enter a password.");
+      this.emailError.nativeElement.style.display = "none";
+      this.passwordError.nativeElement.style.display = "block";
+      this.registerError.nativeElement.style.display = "none";
+      this.emailLengthError.nativeElement.style.display = "none";
     }
     // All fields filled in: check for valid email address
     else {
@@ -52,7 +71,10 @@ export class RegisterComponent implements OnInit {
       }
       // if email is not valid, show error
       if(at==false){
-        window.alert("Please enter a valid email address.");
+        this.emailError.nativeElement.style.display = "block";
+        this.passwordError.nativeElement.style.display = "none";
+        this.registerError.nativeElement.style.display = "none";
+        this.emailLengthError.nativeElement.style.display = "none";
       }
       // SUCCESS: if email is valid, and password field is filled out, send request to backend for verification
       else{
@@ -63,19 +85,34 @@ export class RegisterComponent implements OnInit {
 
           // If Success, send back to login page
           if (data['content'] == 'Success') {
-            window.alert('User successfully created. Please login with your new credentials.')
-            this.router.navigate(['/']);
+            this.registerSuccess.nativeElement.style.display = "block";
+            this.registerError.nativeElement.style.display = "none";
+            this.emailError.nativeElement.style.display = "none";
+            this.emailLengthError.nativeElement.style.display = "none";
+            this.passwordError.nativeElement.style.display = "none";
+            this.registerButton.nativeElement.disabled = "true";
+            setTimeout(() => {
+              this.router.navigate(['/']);
+            }, 5000);
           } 
           // If Too long error, display error message, clear fields, and keep on register page.
           else if (data['content'] == 'Too long') {
-            window.alert('Email addresses cannot exceed 50 characters. Please try a different email.');
+            this.emailLengthError.nativeElement.style.display = "block";
+            this.registerError.nativeElement.style.display = "none";
+            this.emailError.nativeElement.style.display = "none";
+            this.passwordError.nativeElement.style.display = "none";  
             this.email.nativeElement.value = "";
             this.password.nativeElement.value = "";
             this.email.nativeElement.focus();
           }
           // If Already exists error, display error message, clear fields, and keep on register page.
           else if (data['content'] == 'Already exists') {
-            window.alert('A user with that email already exists. Please try a different email.');
+            this.registerError.nativeElement.style.display = "block";
+            this.registerSuccess.nativeElement.style.display = "none";
+            this.emailError.nativeElement.style.display = "none";
+            this.emailLengthError.nativeElement.style.display = "none";
+            this.passwordError.nativeElement.style.display = "none";  
+
             this.email.nativeElement.value = "";
             this.password.nativeElement.value = "";
             this.email.nativeElement.focus();
